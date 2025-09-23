@@ -85,14 +85,37 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
-defined('SITE_SALT')           OR define('SITE_SALT', 'OFLEP'); // Table Prefix
-defined('TP')                  OR define('TP', 'rs_'); // Table Prefix
+///////////////////////////////////////////////
+$startyear='2025';
+$curyear = date('Y');
+if($startyear<$curyear){
+    $curyear=$startyear.'-'.$curyear;
+}
+defined('PROJECT_NAME')        OR define('PROJECT_NAME',"Kakamaa Business House"); 
+defined('OUR_BRAND')       	   OR define('OUR_BRAND',"Kakamaa Business House Pvt. Ltd.");
+defined('SESSION_YEAR')        OR define('SESSION_YEAR',"$curyear");
+defined('SITE_SALT')           OR define('SITE_SALT',"OFLEP");
+defined('TP')        		   OR define('TP',"kb_"); // Table Prefix
+defined('PRE')                 OR define('PRE',"<pre>");
+defined('NTYPE')               OR define('NTYPE',"toastr"); //Notification Type
+defined('REQUEST_LOG')         OR define('REQUEST_LOG',TRUE); //Request Log
+defined('INVOICE_PREFIX')      OR define('INVOICE_PREFIX','KBH'); //Prefix
+defined('CI_DEBUGGER')         OR define('CI_DEBUGGER',FALSE);
+//////////////////////////////////////////////
+/*--------------Template Colors-------------*/
+//////////////////////////////////////////////
+defined('ACCENT_COLOR')        OR define('ACCENT_COLOR',"accent-white");
+defined('NAVBAR_COLOR')        OR define('NAVBAR_COLOR',"navbar-primary navbar-dark");
+defined('BRAND_COLOR')         OR define('BRAND_COLOR',"navbar-primary");
+defined('SIDEBAR_COLOR')       OR define('SIDEBAR_COLOR',"sidebar-dark-theme sidebar-dark-primary");
+//////////////////////////////////////////////
 
+/////////////////////////////////////////////
 if(isset($_SERVER['HTTP_HOST']) && ($_SERVER['HTTP_HOST']=='localhost')){
 	defined('DB_HOST')		? null : define('DB_HOST','127.0.0.1');
 	defined('DB_USER')		? null : define('DB_USER', 'root');
 	defined('DB_PASSWORD')	? null : define('DB_PASSWORD','');
-	defined('DB_NAME')		? null : define('DB_NAME','db_restaurant');
+	defined('DB_NAME')		? null : define('DB_NAME','db_kakamaa');
 }
 else{
 	defined('DB_HOST')      ? null : define('DB_HOST', '127.0.0.1');

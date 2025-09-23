@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+date_default_timezone_set('Asia/Kolkata');
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -24,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 if(isset($_SERVER['HTTP_HOST']) && ($_SERVER['HTTP_HOST']=='localhost')){
-    $config['base_url'] = "http://$_SERVER[HTTP_HOST]/projects/restaurant_soft";
+    $config['base_url'] = "http://$_SERVER[HTTP_HOST]/projects/kakamaa";
 }
 else{
 	$config['base_url'] = "http://$_SERVER[HTTP_HOST]";
@@ -106,7 +107,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,7 +143,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------

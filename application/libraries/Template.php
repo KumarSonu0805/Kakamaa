@@ -95,6 +95,10 @@ class Template {
 			$this->loadtabulator();
 		}
 		
+		if(isset($data['tabulatorexport']) && $data['tabulatorexport']===true){
+			$this->loadtabulatorexport();
+		}
+		
 		if(isset($data['switchery']) && $data['switchery']===true){
 			$this->loadswitchery();
 		}
@@ -102,8 +106,12 @@ class Template {
 		if(isset($data['alertify']) && $data['alertify']===true){
 			$this->loadalertify();
 		}
+
+		if(isset($data['select2']) && $data['select2']===true){
+			$this->loadselect2();
+		}
 		
-		//$this->loadtoastr();
+		$this->loadtoastr();
         $data['styles']=$this->styles;
 		$data['top_script']=$this->top_script;
 		$data['content_script']=$this->content_script;
@@ -124,4 +132,45 @@ class Template {
 		
     }
     
+	function loadtoastr(){
+		$this->styles['file'][]="includes/plugins/toastr/toastr.min.css";
+		$this->bottom_script['file'][]="includes/plugins/toastr/toastr.min.js";
+	}
+	
+	function loaddatatable(){
+		$this->styles['link'][]="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css";
+		$this->content_script['link'][]="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js";
+	}
+	
+	function loadswitchery(){
+		$this->styles['link'][]="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.css";
+		$this->content_script['link'][]="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js";
+	}
+	
+	function loadtabulator(){
+		$this->styles['link'][]="https://unpkg.com/tabulator-tables@6.3.1/dist/css/tabulator_bulma.min.css";
+		//$this->styles['file'][]="includes/custom/tabulator-custom.css";
+		$this->styles['link'][]="https://cdn.jsdelivr.net/gh/atalprateek/tabulator-ext/tabulator-ext.css";
+		$this->content_script['link'][]="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js";
+		//$this->content_script['file'][]="includes/custom/tabulator-custom.js";
+		$this->content_script['link'][]="https://cdn.jsdelivr.net/gh/atalprateek/tabulator-ext/tabulator-ext.js";
+	}
+	
+	function loadtabulatorexport(){
+		$this->content_script['link'][]="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+		$this->content_script['link'][]="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js";
+		$this->content_script['link'][]="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+	}
+	
+	function loadalertify(){
+		$this->styles['link'][]="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css";
+		$this->styles['link'][]="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css";
+		$this->content_script['link'][]="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js";
+	}
+	
+	function loadselect2(){
+		$this->styles['file'][]="includes/plugins/select2/css/select2.min.css";
+		$this->bottom_script['file'][]="includes/plugins/select2/js/select2.full.min.js";
+	}
+	
 }

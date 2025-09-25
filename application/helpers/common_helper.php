@@ -130,22 +130,6 @@
 		}  
 	}
 
-	if(!function_exists('getrank')) {
-  		function getrank($user) {
-    		$CI = get_instance();
-            $rank='';
-            if($user['role']=='member'){
-                $royalty=$CI->member->getroyalties(['t1.regid'=>$user['id']],'single','t1.id desc');
-                $rank=!empty($royalty['rank_name'])?$royalty['rank_name']:"--";
-            }
-            else{
-                $franchise=$CI->franchise->getfranchises(['t1.user_id'=>$user['id']],'single');
-                $rank=ucwords($franchise['type']).' Franchise';
-            }
-            return $rank;
-		}  
-	}
-
     function redirectToAppOrPlayStore($customSchemeUrl, $playStoreUrl) {
         // Check if the request is from a mobile device
         if (isMobileDevice()) {
@@ -200,25 +184,6 @@
         }
     }
 
-	if(!function_exists('getcart')) {
-  		function getcart($data=array()) {
-    		$CI = get_instance();
-            $cart=$CI->cart->getcart($data);
-            return $cart;
-		}  
-	}
-
-	if(!function_exists('countcart')) {
-  		function countcart() {
-            $cart=getcart();
-            $count=0;
-            if(!empty($cart)){
-                $count=count($cart);
-            }
-            return $count;
-        }
-    }
-
 	if(!function_exists('getdeliverycharge')) {
   		function getdeliverycharge($amount) {
     		$CI = get_instance();
@@ -234,148 +199,27 @@
         }
     }
 
-	if(!function_exists('checkaadhar')) {
-        function checkaadhar($user,$aadhar,$role='member') {
-          $CI = get_instance();
-          if($role=='member'){
-            $check=$CI->db->get_where('members',['aadhar'=>$aadhar,'regid!='=>$user['id']]);
-          }
-          else{
-            $check=$CI->db->get_where('franchise',['aadhar'=>$aadhar,'user_id!='=>$user['id']]);
-          }
-          if($check->num_rows()==0){
-            return true;
-          }
-          else{
-            $members=$check->result_array();
-            $regids=array_column($members,'regid');
-            $CI->db->where_in('regid',$regids);
-            $checkkyc=$CI->db->get_where('acc_details',['kyc!='=>0]);
-            if($checkkyc->num_rows()==0){
-                return true;
-            }
-            else{
-                return false;
-            }
-          }
-        }
-    }
-
-	if(!function_exists('checkpan')) {
-        function checkpan($user,$pan,$role='member') {
-          $CI = get_instance();
-          if($role=='member'){
-            $check=$CI->db->get_where('members',['pan'=>$pan,'regid!='=>$user['id']]);
-          }
-          else{
-            $check=$CI->db->get_where('franchise',['pan'=>$pan,'user_id!='=>$user['id']]);
-          }
-          if($check->num_rows()==0){
-            return true;
-          }
-          else{
-            $members=$check->result_array();
-            $regids=array_column($members,'regid');
-            $CI->db->where_in('regid',$regids);
-            $checkkyc=$CI->db->get_where('acc_details',['kyc!='=>0]);
-            if($checkkyc->num_rows()==0){
-                return true;
-            }
-            else{
-                return false;
-            }
-          }
-        }
-    }
-    
-	if(!function_exists('getroyalty')) {
-        function getroyalty() {
-            $CI = get_instance();
-            
-            return array();
-        }
-    }
-
-	if(!function_exists('getfunds')) {
-        function getfunds() {
-            $CI = get_instance();
-            return array();
-        }
-    }
-
-	if(!function_exists('checkbillpaymentlimit')) {
-        function checkbillpaymentlimit($user,$type='recharge') {
-            $CI = get_instance();
-            $status=TRUE;
-            //package limit
-            $regid=$user['id'];
-            $memberdetails=$CI->member->getmemberdetails($regid);
-            $package_id=$memberdetails['package_id'];
-            $category=array();
-            if(!empty($package_id)){
-                $category=$CI->db->get_where('category',"id in (SELECT category_id from ".TP."packages 
-                                                                        where id='$package_id')")->unbuffered_row('array');
-                
-            }
-            else{
-                $category=$CI->db->get_where('category',['id'=>0])->unbuffered_row('array');
-            }
-            $where=array("regid='$regid'");
-            $where[]="(month(date)='".date('m')."' and year(date)='".date('Y')."')";
-            if($type=='recharge'){
-                $where[]="(type='prepaid_recharge' or type='dth_recharge')";
-                $limit=$category['max_recharge']??0;
-            }
-            else{
-                $where[]="(type!='prepaid_recharge' and type!='dth_recharge')";
-                $limit=$category['max_billpayment']??0;
-            }
-            $where[]="(status in (0,1,4,6,7))";
-            $where=implode(' and ',$where);
-            $query=$CI->db->get_where('bill_payments',$where);
-            $count=$query->num_rows();
-            if($limit<=$count){
-                $status=FALSE;
-            }
-            return $status;
-        }
-    }
-
     if(!function_exists('logupdateoperations')) {
         function logupdateoperations($table,$data,$where,$parent_id=NULL) {
-          $CI = get_instance();
-          $class=$CI->router->class;
-          $method=$CI->router->method;
-          $ref=array('class'=>$class,'method'=>$method);
-          $CI->load->library('DBOperations');
-          $result=$CI->dboperations->log_update($table,$data,$where,$ref,$parent_id);
-          return $result;
-      }
-  }
-
-  if(!function_exists('logdeleteoperations')) {
-        function logdeleteoperations($table,$where,$parent_id=NULL) {
-          $CI = get_instance();
-          $class=$CI->router->class;
-          $method=$CI->router->method;
-          $ref=array('class'=>$class,'method'=>$method);
-          $CI->load->library('DBOperations');
-          $result=$CI->dboperations->log_delete($table,$where,$ref,$parent_id);
-          return $result;
-      }
-  }
-
-    if(!function_exists('checkkyc')) {
-        function checkkyc($user) {
             $CI = get_instance();
-            $acc_details=$CI->member->getaccdetails($user['id']);
-            $kyc=!empty($acc_details['kyc'])?$acc_details['kyc']:0;
-            if($kyc==1){
-                return true;
-            }
-            else{
-                return false;
-            }
+            $class=$CI->router->class;
+            $method=$CI->router->method;
+            $ref=array('class'=>$class,'method'=>$method);
+            $CI->load->library('DBOperations');
+            $result=$CI->dboperations->log_update($table,$data,$where,$ref,$parent_id);
+            return $result;
+        }
+    }
+
+    if(!function_exists('logdeleteoperations')) {
+        function logdeleteoperations($table,$where,$parent_id=NULL) {
+            $CI = get_instance();
+            $class=$CI->router->class;
+            $method=$CI->router->method;
+            $ref=array('class'=>$class,'method'=>$method);
+            $CI->load->library('DBOperations');
+            $result=$CI->dboperations->log_delete($table,$where,$ref,$parent_id);
+            return $result;
         }
     }
 

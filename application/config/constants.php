@@ -94,7 +94,7 @@ if($startyear<$curyear){
 defined('PROJECT_NAME')        OR define('PROJECT_NAME',"Kakamaa Business House"); 
 defined('OUR_BRAND')       	   OR define('OUR_BRAND',"Kakamaa Business House Pvt. Ltd.");
 defined('SESSION_YEAR')        OR define('SESSION_YEAR',"$curyear");
-defined('SITE_SALT')           OR define('SITE_SALT',"OFLEP");
+defined('SITE_SALT')           OR define('SITE_SALT',"Kakamaa Business");
 defined('TP')        		   OR define('TP',"kb_"); // Table Prefix
 defined('PRE')                 OR define('PRE',"<pre>");
 defined('NTYPE')               OR define('NTYPE',"toastr"); //Notification Type

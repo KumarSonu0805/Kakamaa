@@ -47,9 +47,39 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="<?= base_url('masterkey/category/'); ?>" class="nav-link <?= activate_menu('masterkey/category'); ?>">
+                                        <a href="<?= base_url('masterkey/'); ?>" class="nav-link <?= activate_menu('masterkey'); ?>">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Category</p>
+                                            <p>State</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('masterkey/district/'); ?>" class="nav-link <?= activate_menu('masterkey/district'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>District</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('masterkey/area/'); ?>" class="nav-link <?= activate_menu('masterkey/area'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Area</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-none">
+                                        <a href="<?= base_url('masterkey/beat/'); ?>" class="nav-link <?= activate_menu('masterkey/beat'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Beat</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('masterkey/brand/'); ?>" class="nav-link <?= activate_menu('masterkey/brand'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Brand</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('masterkey/finance/'); ?>" class="nav-link <?= activate_menu('masterkey/finance'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Finance Company</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

@@ -1,11 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login extends CI_Controller {
+class Login extends MY_Controller {
 	function __construct(){
 		parent::__construct();
         //logrequest();
-        $this->load->library('template');
 	}
     
     public function index(){
@@ -54,12 +53,12 @@ class Login extends CI_Controller {
                 loginredirect();
             }
             else{ 
-                $this->session->set_flashdata('logerr',"Wrong Username or Password!");
+                $this->set_flash('logerr',"Wrong Username or Password!");
                 redirect('login/');
             }
 		}
 		else{ 
-			$this->session->set_flashdata('logerr',$result['message']);
+			$this->set_flash('logerr',$result['message']);
 			redirect('login/');
 		}
 	}
@@ -117,7 +116,7 @@ class Login extends CI_Controller {
 				redirect('enter-otp/'.$otp);
 			}
 			else{
-				$this->session->set_flashdata("logerr","Username not valid!");
+				$this->set_flash("logerr","Username not valid!");
 				redirect('forgot-password/');
 			}
 		}
@@ -136,7 +135,7 @@ class Login extends CI_Controller {
 				redirect('reset-password/');
 			}
 			else{
-				$this->session->set_flashdata("logerr",$result['message']);
+				$this->set_flash("logerr",$result['message']);
 				redirect('enter-otp/');
 			}
 		}

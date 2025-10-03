@@ -774,9 +774,52 @@ class Home extends MY_Controller {
 	
     public function runquery(){
         $query=array(
-            "ALTER TABLE `of_billers` ADD `updates` BOOLEAN NOT NULL DEFAULT TRUE AFTER `paymode`;",
-            "UPDATE of_billers set blr_category_name='Hospital and Pathology' WHERE `blr_category_name` LIKE 'Hospital and Patholo'",
-            "UPDATE of_billers set blr_category_name='Clubs and Associations' WHERE `blr_category_name` LIKE 'Clubs and Association'",
+            "CREATE TABLE `kb_dealers` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `name` varchar(100) NOT NULL,
+ `mobile` varchar(10) NOT NULL,
+ `email` varchar(100) NOT NULL,
+ `address` text NOT NULL,
+ `parent_id` int(11) NOT NULL,
+ `area_id` int(11) NOT NULL,
+ `state` varchar(50) NOT NULL,
+ `district` varchar(50) NOT NULL,
+ `pincode` varchar(6) NOT NULL,
+ `latitude` varchar(30) NOT NULL,
+ `longitude` varchar(30) NOT NULL,
+ `radius` float NOT NULL,
+ `aadhar` varchar(255) NOT NULL,
+ `pan` varchar(255) NOT NULL,
+ `gst` varchar(10) NOT NULL,
+ `gst_no` varchar(30) NOT NULL,
+ `photo` varchar(255) NOT NULL,
+ `description` longtext NOT NULL,
+ `user_id` int(11) NOT NULL,
+ `emp_user_id` int(11) NOT NULL DEFAULT 1,
+ `status` tinyint(1) NOT NULL DEFAULT 1,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+            "CREATE TABLE `kb_employees` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `name` varchar(255) NOT NULL,
+ `fname` varchar(255) NOT NULL,
+ `dob` date NOT NULL,
+ `mobile` varchar(255) NOT NULL,
+ `email` varchar(255) NOT NULL,
+ `address` text NOT NULL,
+ `gender` varchar(255) NOT NULL,
+ `designation` varchar(255) NOT NULL,
+ `date_of_join` date DEFAULT NULL,
+ `basic_salary` float NOT NULL,
+ `pf` float NOT NULL,
+ `hra` float NOT NULL,
+ `photo` text NOT NULL,
+ `user_id` int(11) DEFAULT NULL,
+ `status` int(11) NOT NULL DEFAULT 1,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4",
             
         );
         foreach($query as $sql){

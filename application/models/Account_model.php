@@ -458,11 +458,10 @@ class Account_model extends CI_Model{
 	
     public function getusers($where=array(),$type="all"){
         $columns="t1.*,  t2.name as role_name,t3.language";
-        $this->db->select($columns);
+        //$this->db->select($columns);
         $this->db->where($where);
         $this->db->from("users t1");
-        $this->db->join("roles t2","t2.slug=t1.role");
-        $this->db->join("languages t3","t3.id=t1.language_id",'left');
+        //$this->db->join("roles t2","t2.slug=t1.role");
         $query=$this->db->get();
         if($type=='all'){
             $array=$query->result_array();

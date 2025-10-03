@@ -90,6 +90,46 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="nav-item has-treeview <?= activate_dropdown('employees'); ?>">
+                                <a href="#" class="nav-link <?= activate_dropdown('employees','a'); ?>">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>Employees<i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('employees/'); ?>" class="nav-link <?= activate_menu('employees'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add Employee</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('employees/employeelist/'); ?>" class="nav-link <?= activate_menu('employees/employeelist'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Employee List</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview <?= activate_dropdown('dealers'); ?>">
+                                <a href="#" class="nav-link <?= activate_dropdown('dealers','a'); ?>">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>Dealers<i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('dealers/'); ?>" class="nav-link <?= activate_menu('dealers'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add Dealer</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('dealers/dealerlist/'); ?>" class="nav-link <?= activate_menu('dealers/dealerlist'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Dealer List</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="nav-item has-treeview <?= activate_dropdown('settings'); ?>">
                                 <a href="#" class="nav-link <?= activate_dropdown('settings','a'); ?>">
                                     <i class="nav-icon fas fa-cogs"></i>

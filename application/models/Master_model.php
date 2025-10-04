@@ -164,6 +164,62 @@ class Master_model extends CI_Model{
         }
     }
 
+    public function savebeat($data){
+        if($this->db->get_where('beats',['LOWER(name)'=>strtolower($data['name']),'state_id'=>$data['state_id'],'district_id'=>$data['district_id'],'area_id'=>$data['area_id']])->num_rows()==0){
+            $data['added_on']=$data['updated_on']=date('Y-m-d H:i:s');
+            if($this->db->insert('beats',$data)){
+                return array("status"=>true,"message"=>"Beat Added Successfully!");
+            }
+            else{
+                $error=$this->db->error();
+                return array("status"=>false,"message"=>$error['message']);
+            }
+        }
+        else{
+            return array("status"=>false,"message"=>"Beat Already Added!");
+        }
+    }
+
+    public function getbeats($where=array(),$type="all",$order_by="t1.id",$columns=false){
+        if($columns===false){
+            $columns="t1.*,t2.name as state_name,t3.name as district_name,t4.name as area_name";
+        }
+        $this->db->select($columns);
+        $this->db->where($where);
+        $this->db->order_by($order_by);
+        $this->db->from('beats t1');
+        $this->db->join('states t2','t1.state_id=t2.id');
+        $this->db->join('districts t3','t1.district_id=t3.id');
+        $this->db->join('areas t4','t1.area_id=t4.id');
+        $query=$this->db->get();
+        if($type=='all'){
+            $array=$query->result_array();
+        }
+        else{
+            $array=$query->unbuffered_row('array');
+        }
+        return $array;
+    }
+    
+    public function updatebeat($data){
+        if($this->db->get_where('beats',['LOWER(name)'=>strtolower($data['name']),'state_id'=>$data['state_id'],'district_id'=>$data['district_id'],'area_id'=>$data['area_id'],'id!='=>$data['id']])->num_rows()==0){
+            $where=array('id'=>$data['id']);
+            unset($data['id']);
+            $data['updated_on']=date('Y-m-d H:i:s');
+            logupdateoperations('beats',$data,$where);
+            if($this->db->update('beats',$data,$where)){
+                return array("status"=>true,"message"=>"Beat Updated Successfully!");
+            }
+            else{
+                $error=$this->db->error();
+                return array("status"=>false,"message"=>$error['message']);
+            }
+        }
+        else{
+            return array("status"=>false,"message"=>"Beat Already Added!");
+        }
+    }
+
     public function savebank($data){
         if($this->db->get_where('banks',['LOWER(name)'=>strtolower($data['name'])])->num_rows()==0){
             if($this->db->insert('banks',$data)){

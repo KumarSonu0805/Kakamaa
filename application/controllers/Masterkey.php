@@ -49,6 +49,20 @@ class Masterkey extends MY_Controller {
         }      
     }
     
+    public function beat(){
+        if($this->input->get('type')===NULL){
+            $data['title']="Beat";
+            $data['tabulator']=true;
+            $data['alertify']=true;
+            $data['states']=state_dropdown();
+            $this->template->load('masterkey','beat',$data);          
+        }
+        else{
+            $beats=$this->master->getbeats();
+            echo json_encode($beats);
+        }      
+    }
+    
     public function finance(){
         if($this->input->get('type')===NULL){
             $data['title']="Finance Company";
@@ -239,8 +253,55 @@ class Masterkey extends MY_Controller {
         $district_id=$this->input->post('district_id');
         $area_id=$this->input->post('area_id');
         $area_id=!empty($area_id)?$area_id:'';
-        $areas=area_dropdown(['t1.district_id'=>$district_id,]);
+        $areas=area_dropdown(['t1.district_id'=>$district_id]);
         echo create_form_input('select','area_id','',true,$area_id,array('id'=>'area_id'),$areas);
+    }
+    
+    public function savebeat(){
+        if($this->input->post('savebeat')!==NULL){
+            $data=$this->input->post();
+            unset($data['savebeat']);
+            $result=$this->master->savebeat($data);
+            if($result['status']===true){
+                $this->session->set_flashdata('msg',$result['message']);
+            }
+            else{
+                $this->session->set_flashdata('err_msg',$result['message']);
+            }
+        }
+
+        elseif($this->input->post('updatebeat')!==NULL){
+            $data=$this->input->post();
+            unset($data['updatebeat']);
+            $result=$this->master->updatebeat($data);
+            if($result['status']===true){
+                $this->session->set_flashdata('msg',$result['message']);
+            }
+            else{
+                $this->session->set_flashdata('err_msg',$result['message']);
+            }
+        }
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+    
+    public function getbeat(){
+        $id=$this->input->post('id');
+        $beat=$this->master->getbeats(['t1.id'=>$id],'single');
+        echo json_encode($beat);
+    }
+    
+    public function deletebeat(){
+        $id=$this->input->post('id');
+        $where=array('id'=>$id);
+        logdeleteoperations('beats',$where);
+        if($this->db->delete('beats',$where)){
+            $this->session->set_flashdata('msg',"Beat Deleted Successfully");
+        }
+        else{
+            $error=$this->db->error();
+            $this->session->set_flashdata('err_msg',$error['message']);
+        }
     }
     
     public function savebank(){

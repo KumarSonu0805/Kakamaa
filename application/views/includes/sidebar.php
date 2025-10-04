@@ -64,7 +64,7 @@
                                             <p>Area</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item d-none">
+                                    <li class="nav-item">
                                         <a href="<?= base_url('masterkey/beat/'); ?>" class="nav-link <?= activate_menu('masterkey/beat'); ?>">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Beat</p>

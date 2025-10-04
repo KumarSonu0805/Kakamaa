@@ -5,7 +5,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <?= form_open_multipart('masterkey/savearea/'); ?>
+                                                        <?= form_open_multipart('masterkey/savebeat/'); ?>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-form-label">State</label>
                                                                 <div class="col-sm-10">
@@ -21,6 +21,12 @@
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-form-label">Area</label>
                                                                 <div class="col-sm-10">
+                                                                    <?= create_form_input('select','area_id','',true,'',array('id'=>'area_id'),array(''=>'Select Area')) ?>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-form-label">Beat</label>
+                                                                <div class="col-sm-10">
                                                                     <input type="text" class="form-control" name="name" id="name" required>
                                                                     <input type="hidden" name="id" id="id">
                                                                 </div>
@@ -28,7 +34,7 @@
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-form-label"></label>
                                                                 <div class="col-sm-10">
-                                                                    <input type="submit" class="btn btn-success waves-effect waves-light" name="savearea" value="Save Area">
+                                                                    <input type="submit" class="btn btn-success waves-effect waves-light" name="savebeat" value="Save Beat">
                                                                     <button type="button" class="btn btn-danger waves-effect waves-light cancel-btn hidden">Cancel</button>
                                                                 </div>
                                                             </div>
@@ -56,37 +62,50 @@
                                             data:{state_id:$(this).val(),district_id:district_id},
                                             success:function(data){
                                                 $('#district_id').replaceWith(data);
+                                                $('#district_id').trigger('change');
+                                            }
+                                        });
+                                    });
+                                    $('body').on('change','#district_id',function(){
+                                        var area_id=$('#state_id').attr('data-area_id');
+                                        $.ajax({
+                                            type:"post",
+                                            url:"<?= base_url('masterkey/getareadropdown/'); ?>",
+                                            data:{district_id:$(this).val(),area_id:area_id},
+                                            success:function(data){
+                                                $('#area_id').replaceWith(data);
                                             }
                                         });
                                     });
                                     $('body').on('click','.edit-btn',function(){
                                         $.ajax({
                                             type:"post",
-                                            url:"<?= base_url('masterkey/getarea/'); ?>",
+                                            url:"<?= base_url('masterkey/getbeat/'); ?>",
                                             data:{id:$(this).val()},
                                             success:function(data){
                                                 data=JSON.parse(data);
                                                 $('#state_id').attr('data-district_id',data['district_id']);
+                                                $('#state_id').attr('data-area_id',data['area_id']);
                                                 $('#state_id').val(data['state_id']).trigger('change');
                                                 $('#name').val(data['name']);
                                                 $('#id').val(data['id']);
                                                 $('.cancel-btn').removeClass('hidden');
-                                                $('input[name="savearea"]').attr('name','updatearea').val('Update Area');
+                                                $('input[name="savebeat"]').attr('name','updatebeat').val('Update Beat');
                                             }
                                         });
                                     });
                                     $('.cancel-btn').click(function(){
                                         $('#state_id,#district_id,#name,#id,#image').val('');
                                         $('.cancel-btn').addClass('hidden');
-                                        $('input[name="updatearea"]').attr('name','savearea').val('Save Area');
+                                        $('input[name="updatebeat"]').attr('name','savebeat').val('Save Beat');
                                     });
                                     $('body').on('click','.delete-btn',function(){
                                         var id=$(this).val();
-                                        alertify.confirm("Delete Area", "Are you sure you want to Delete this Area?", 
+                                        alertify.confirm("Delete Area", "Are you sure you want to Delete this Beat?", 
                                             function(){ 
                                                 $.ajax({
                                                     type:"post",
-                                                    url:"<?= base_url('masterkey/deletearea/'); ?>",
+                                                    url:"<?= base_url('masterkey/deletebeat/'); ?>",
                                                     data:{id:id},
                                                     success:function(data){
                                                         refreshTableData();
@@ -98,16 +117,17 @@
                                         ).set('labels', {ok:'Delete Area'});
                                     });
 
-                                    var url="<?= base_url('masterkey/area/?type=data'); ?>";
+                                    var url="<?= base_url('masterkey/beat/?type=data'); ?>";
                                     var columns=[
                                             { 
                                                 title: "Sl.No.", 
                                                 field: "serial", 
                                                 type: "auto"
                                             },
-                                            { title: "Area", field: "name" },
+                                            { title: "Beat", field: "name" },
                                             { title: "State", field: "state_name" },
                                             { title: "District", field: "district_name" },
+                                            { title: "Area", field: "area_name" },
                                             { 
                                                 title: "Action", 
                                                 field: "id", 

@@ -38,7 +38,7 @@ class Dealers extends MY_Controller {
         //$data['subtitle']="Sample Subtitle";
         $data['breadcrumb']=array();
         $data['datatable']=true;
-        //$data['dealers']=$this->dealer->getdealers(['t1.status'=>1]);
+        $data['dealers']=$this->dealer->getdealers(['t1.status'=>1]);
 		$this->template->load('dealers','list',$data);
 	}
     

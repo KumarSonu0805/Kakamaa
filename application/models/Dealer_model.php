@@ -18,11 +18,18 @@ class Dealer_model extends CI_Model{
     
     public function getdealers($where=array(),$type="all",$orderby="t1.id"){
         $default=file_url('assets/images/default.jpg');
-        $columns="t1.*, t2.username,t2.vp as password, case when t1.photo='' then '$default' else concat('".file_url()."',t1.photo) end as photo,t2.status as user_status,t3.name as added_by";
+        $columns="t1.*, t2.username,t2.vp as password, 
+                    case when t1.photo='' then '$default' else concat('".file_url()."',t1.photo) end as photo,
+                    t2.status as user_status,t3.name as added_by,t4.name as state_name,t5.name as district_name,
+                    t6.name as area_name,t7.name as beat_name";
         $this->db->select($columns);
         $this->db->from("dealers t1");
         $this->db->join("users t2","t1.user_id=t2.id");
         $this->db->join("users t3","t1.emp_user_id=t3.id");
+        $this->db->join("states t4","t1.state_id=t4.id");
+        $this->db->join("districts t5","t1.district_id=t5.id");
+        $this->db->join("areas t6","t1.area_id=t6.id");
+        $this->db->join("beats t7","t1.beat_id=t7.id");
         $this->db->where($where);
         $this->db->order_by($orderby);
         $query=$this->db->get();

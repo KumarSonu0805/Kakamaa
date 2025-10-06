@@ -17,7 +17,9 @@
                                                                 <th>Mobile</th>
                                                                 <th>Email</th>
                                                                 <th>Address</th>
-                                                                <th>Images</th>
+                                                                <th>Area</th>
+                                                                <th>Beat</th>
+                                                                <?php /*?><th>Images</th><?php */?>
                                                                 <th>GST</th>
                                                                 <th>Added By</th>
                                                                 <th>Password</th>
@@ -39,12 +41,14 @@
                                                                 <td><?= $dealer['name']; ?></td>
                                                                 <td><?= $dealer['mobile']; ?></td>
                                                                 <td><?= $dealer['email']; ?></td>
-                                                                <td><?= $dealer['address'].', '.$dealer['district'].', '.$dealer['state'].', PIN-'.$dealer['pincode']; ?></td>
-                                                                <td>
+                                                                <td><?= $dealer['address'].', '.$dealer['district_name'].', '.$dealer['state_name'].', PIN-'.$dealer['pincode']; ?></td>
+                                                                <td><?= $dealer['area_name']; ?></td>
+                                                                <td><?= $dealer['beat_name']; ?></td>
+                                                                <?php /*?><td>
                                                                     <button type="button" class="btn btn-default btn-sm view-btn waves-effect" data-toggle="modal" data-target="#default-Modal" data-title="Aadhar Image" data-src="<?= file_url($dealer['aadhar']); ?>"><i class="fa fa-eye"></i> Aadhar</button>
                                                                     <button type="button" class="btn btn-default btn-sm view-btn waves-effect" data-toggle="modal" data-target="#default-Modal" data-title="PAN Image" data-src="<?= file_url($dealer['pan']); ?>"><i class="fa fa-eye"></i> PAN</button>
 
-                                                                </td>
+                                                                </td><?php */?>
                                                                 <td><?= $dealer['gst_no']; ?></td>
                                                                 <td><?= $dealer['added_by']; ?></td>
                                                                 <td>
@@ -53,13 +57,13 @@
                                                                 </td>
                                                                 <td><?= $status; ?></td>
                                                                 <td>
-                                                                    <a href="<?= base_url('dealers/editdealer/'.md5($dealer['user_id']).'/'); ?>" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>
+                                                                    <?php /*?><a href="<?= base_url('dealers/editdealer/'.md5($dealer['user_id']).'/'); ?>" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>
                                                                     <?php if($this->session->role=='admin'){  ?>
                                                                     <button type="button" value="<?= $dealer['id']; ?>" class="btn btn-danger btn-xs delete-btn"><i class="fa fa-trash"></i></button>
                                                                     <?php } ?>
                                                                     <?php if($dealer['user_status']==0){ ?>
                                                                     <button type="button" value="<?= md5($dealer['user_id']) ?>" class="btn btn-xs btn-success approve">Approve Vendor</button>
-                                                                    <?php } ?>
+                                                                    <?php } ?><?php */?>
                                                                 </td>
                                                             </tr>
                                                             <?php

@@ -41,3 +41,45 @@
             return $options;
         }
     }
+
+    if(!function_exists('beat_dropdown')){
+        function beat_dropdown($where=array('t1.status'=>1)){
+            $CI = get_instance();
+            $options=array(''=>'Select Beat');
+            $beats=$CI->master->getbeats($where);
+            if(!empty($beats)){
+                foreach($beats as $beat){
+                    $options[$beat['id']]=$beat['name'];
+                }
+            }
+            return $options;
+        }
+    }
+
+    if(!function_exists('brand_dropdown')){
+        function brand_dropdown($where=array('t1.status'=>1)){
+            $CI = get_instance();
+            $options=array(''=>'Select Brand');
+            $brands=$CI->master->getbrands($where);
+            if(!empty($brands)){
+                foreach($brands as $brand){
+                    $options[$brand['id']]=$brand['name'];
+                }
+            }
+            return $options;
+        }
+    }
+
+    if(!function_exists('finance_dropdown')){
+        function finance_dropdown($where=array('t1.status'=>1)){
+            $CI = get_instance();
+            $options=array(''=>'Select Finance');
+            $finances=$CI->master->getfinances($where);
+            if(!empty($finances)){
+                foreach($finances as $finance){
+                    $options[$finance['id']]=$finance['name'];
+                }
+            }
+            return $options;
+        }
+    }

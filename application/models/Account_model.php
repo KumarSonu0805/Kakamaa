@@ -19,7 +19,6 @@ class Account_model extends CI_Model{
             $message=$array['status']==1?"User already added":"User added Successfully!";
             return array("status"=>true,"message"=>$message,"user_id"=>$array['id']);
         }
-        var_dump($status);die;
         if($status){
             $vp=$password=empty($data['password'])?random_string('alnum', 10):$data['password'];
             $salt=random_string('alnum', 16);

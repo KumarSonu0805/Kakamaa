@@ -111,6 +111,10 @@ class Template {
 			$this->loadselect2();
 		}
 		
+		if(isset($data['tomselect']) && $data['tomselect']===true){
+			$this->loadtomselect();
+		}
+		
 		$this->loadtoastr();
         $data['styles']=$this->styles;
 		$data['top_script']=$this->top_script;
@@ -171,6 +175,11 @@ class Template {
 	function loadselect2(){
 		$this->styles['file'][]="includes/plugins/select2/css/select2.min.css";
 		$this->bottom_script['file'][]="includes/plugins/select2/js/select2.full.min.js";
+	}
+	
+	function loadtomselect(){
+		$this->styles['link'][]="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css";
+		$this->content_script['link'][]="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js";
 	}
 	
 }

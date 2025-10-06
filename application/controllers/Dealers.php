@@ -29,7 +29,7 @@ class Dealers extends MY_Controller {
             }
         }
         $data['sales']=$options;
-        
+        $data['tomselect']=true;
 		$this->template->load('dealers','add',$data);
 	}
 	
@@ -102,19 +102,20 @@ class Dealers extends MY_Controller {
     }
     
     public function adddealer(){
-        die('<h1>Under Construction</h1>');
         if($this->input->post('adddealer')!==NULL){
             $data=$this->input->post();
-            $userdata=array("username"=>$data['email'],'password'=>12345,'role'=>'dealer',
+            $userdata=array("username"=>$data['mobile'],'password'=>12345,'role'=>'dealer',
                             'name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email'],'status'=>1);
             
             unset($data['adddealer']);
             $result=$this->account->register($userdata);
             if($result['status']===true){
+                $data['brand_id']=!empty($data['brand_id'])?implode(',',$data['brand_id']):'';
+                $data['finance_id']=!empty($data['finance_id'])?implode(',',$data['finance_id']):'';
                 
                 $upload_path='./assets/images/dealers/';
                 $allowed_types='gif|jpg|jpeg|png|svg';
-                $upload=upload_file('aadhar',$upload_path,$allowed_types,$data['name'].'-aadhar');
+                /*$upload=upload_file('aadhar',$upload_path,$allowed_types,$data['name'].'-aadhar');
                 if($upload['status']===true){
                     $data['aadhar']=$upload['path'];
                 }
@@ -124,15 +125,15 @@ class Dealers extends MY_Controller {
                 if($upload['status']===true){
                     $data['pan']=$upload['path'];
                 }
-                else{ $data['pan']=''; }
+                else{ $data['pan']=''; }*/
             
                 $data['user_id']=$result['user_id'];
                 $result=$this->dealer->adddealer($data);
                 if($result['status']===true){
                     $message ="You account has been created Successfully!<br>Login Details : <br> Email : ".$userdata['username']."<br>";
                     $message.="Password : ".$userdata['password']."<br>";
-                    $message.="KG Sales";
-                    sendemail($data['email'],"Dealer Registration",$message);
+                    $message.=PROJECT_NAME;
+                    //sendemail($data['email'],"Dealer Registration",$message);
                     $this->session->set_flashdata("msg",$result['message']);
                 }
                 else{
@@ -140,7 +141,6 @@ class Dealers extends MY_Controller {
                 }
             }
             else{
-                if($result['message']=='Mobile No. Already Exists!'){ $result['message']='E-mail ID Already Exists!'; }
                 $this->session->set_flashdata("err_msg",$result['message']);
             }
         }

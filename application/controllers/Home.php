@@ -774,18 +774,10 @@ class Home extends MY_Controller {
 	
     public function runquery(){
         $query=array(
-            "CREATE TABLE `kb_beats` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `state_id` int(11) NOT NULL,
- `district_id` int(11) NOT NULL,
- `area_id` int(11) NOT NULL,
- `name` varchar(30) NOT NULL,
- `status` tinyint(1) NOT NULL DEFAULT 1,
- `added_on` datetime NOT NULL,
- `updated_on` datetime NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4"
-            
+            "ALTER TABLE `kb_dealers` ADD `shop_name` VARCHAR(100) NOT NULL AFTER `name`;",
+            "ALTER TABLE `kb_dealers` ADD `whatsapp` VARCHAR(10) NOT NULL AFTER `mobile`;",
+            "ALTER TABLE `kb_dealers` CHANGE `parent_id` `state_id` INT(11) NOT NULL, CHANGE `area_id` `district_id` INT(11) NOT NULL, CHANGE `state` `area_id` INT(11) NOT NULL, CHANGE `district` `beat_id` INT(11) NOT NULL;",
+            "ALTER TABLE `kb_dealers` CHANGE `aadhar` `brand_id` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, CHANGE `pan` `finance_id` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, CHANGE `gst` `shop_photo` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;"
         );
         foreach($query as $sql){
             if(!$this->db->query($sql)){

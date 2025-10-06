@@ -304,6 +304,14 @@ class Masterkey extends MY_Controller {
         }
     }
     
+    public function getbeatdropdown(){
+        $area_id=$this->input->post('area_id');
+        $beat_id=$this->input->post('beat_id');
+        $beat_id=!empty($beat_id)?$beat_id:'';
+        $areas=beat_dropdown(['t1.area_id'=>$area_id]);
+        echo create_form_input('select','beat_id','',true,$beat_id,array('id'=>'beat_id'),$areas);
+    }
+    
     public function savebank(){
         if($this->input->post('savebank')!==NULL){
             $data=$this->input->post();

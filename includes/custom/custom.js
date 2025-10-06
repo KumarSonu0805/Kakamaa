@@ -34,4 +34,19 @@ $(document).ready(function(e) {
 		};
 		toastr[$this.data('status')]($this.html(), $this.data('title'));
     }
+	if($('.tom-select').length){
+        $('.tom-select').each(function(index,ele){
+            createTomSelect(ele)
+        });
+    }
 });
+
+function createTomSelect(ele){
+    $(ele).removeClass('form-control');
+    new TomSelect(ele, {
+    create: false,
+    maxItems: 1,     // only one item
+    allowEmptyOption: true,
+    plugins: []      // no tagging, no remove buttons
+  });
+}

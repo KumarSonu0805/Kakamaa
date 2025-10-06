@@ -6,6 +6,41 @@ class Account_model extends CI_Model{
 		$this->db->db_debug = false;
 	}
 	
+    public function register($data){
+        $username=$data['username'];
+        $mobile=$data['mobile'];
+        $role=$data['role'];
+        $where="(username='$username' or mobile='$mobile'";
+        $where.=") and role='$role'";
+        $query=$this->db->get_where("users",$where);
+        $status=true;
+        if($query->num_rows()>0){
+            $array=$query->unbuffered_row('array');
+            $message=$array['status']==1?"User already added":"User added Successfully!";
+            return array("status"=>true,"message"=>$message,"user_id"=>$array['id']);
+        }
+        var_dump($status);die;
+        if($status){
+            $vp=$password=empty($data['password'])?random_string('alnum', 10):$data['password'];
+            $salt=random_string('alnum', 16);
+            $password=$password.SITE_SALT.$salt;
+            $password=password_hash($password,PASSWORD_DEFAULT);
+            $data['salt']=$salt;
+            $data['password']=$password;
+            $data['vp']=$vp;
+            $data['created_on']=$data['updated_on']=date('Y-m-d H:i:s');
+            $result=$this->db->insert("users",$data);
+            if($result){
+                $user_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"User added Successfully!","user_id"=>$user_id);
+            }
+            else{
+                $err=$this->db->error();
+                return array("status"=>false,"message"=>$err['message']);
+            }
+        }
+    }
+	
 	public function login($data){
         $username=$data['username'];
         $where=array("username"=>$username);

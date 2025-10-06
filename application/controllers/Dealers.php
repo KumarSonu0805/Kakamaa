@@ -84,6 +84,11 @@ class Dealers extends MY_Controller {
 		$this->template->load('dealers','edit',$data);
 	}
     
+	public function map(){
+        $data['title']="Map";
+		$this->template->load('dealers','map',$data);
+	}
+	
     public function getdistricts(){
         $parent_id=$this->input->post('parent_id');
         $districts=$this->master->getdistricts($parent_id);

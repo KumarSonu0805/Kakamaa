@@ -40,6 +40,7 @@
                                     <p>Home</p>
                                 </a>
                             </li>
+                            <?php if($this->session->role=='admin'){ ?>
                             <li class="nav-item has-treeview <?= activate_dropdown('masterkey'); ?>">
                                 <a href="#" class="nav-link <?= activate_dropdown('masterkey','a'); ?>">
                                     <i class="nav-icon fas fa-key"></i>
@@ -167,6 +168,7 @@
                                     </li>
                                 </ul>
                             </li>
+                            <?php } ?>
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->

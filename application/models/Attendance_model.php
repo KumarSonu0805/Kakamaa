@@ -61,6 +61,15 @@ class Attendance_model extends CI_Model{
     
     public function savecurrentlocation($data){
         $where=$data;
+        $result=$this->checkattendance($data['user_id']);
+        if($result['status']===false && $result['message']=="Attendance not Done!"){
+            $adata=$data;
+            $adata['date']=date('Y-m-d');
+            $adata['type']='In';
+            $adata['attendance']=1;
+            $adata['added_on']=$adata['updated_on']=date('Y-m-d H:i:s');
+            $this->saveattendance($adata);
+        }
         $data['added_on']=date('Y-m-d H:i:s');
         $this->db->update("current_locations",["status"=>0],["user_id"=>$data['user_id'],"date(added_on)"=>date('Y-m-d')]);
         if($this->db->insert("current_locations",$data)){

@@ -22,6 +22,7 @@
                                                             <th>Gender</th>
                                                             <th>DOJ</th>
                                                             <th>Photo</th>
+                                                            <th>Password</th>
                                                             <th class="datatable-nosort">Action</th>
                                                         </tr>
                                                     </thead>
@@ -42,7 +43,11 @@
                                                             <td><?= $list['gender']; ?></td>
                                                             <td><?= $list['date_of_join']; ?></td>
                                                             <td><img src="<?= $list['photo']; ?>" height="50" width="80" alt="image"></td>
-                                                              <td>
+                                                            <td>
+                                                                <a href="#" onClick="$(this).hide();$(this).next().show();return false;">View Password</a>
+                                                                <p style="display: none;"><?= $list['password'] ?> <a href="#" onClick="$(this).parent().hide();$(this).parent().prev().show();return false;" class="text-danger"><i class="fa fa-times"></i></a></p>
+                                                            </td>
+                                                            <td>
                                                                <a href="<?= base_url('employees/editemployee/'.md5($list['id']));?>"  class="btn btn-xs text-white btn-warning"><i class="fa fa-edit"></i></a>
                                                                 <?php if($this->session->role=='admin'){  ?>
                                                                 <button type="button" value="<?= $list['id']; ?>" class="btn btn-danger btn-xs delete-btn"><i class="fa fa-trash"></i></button>

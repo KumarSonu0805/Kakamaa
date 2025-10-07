@@ -108,6 +108,12 @@
                                             <p>Employee List</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('employees/trackemployee/'); ?>" class="nav-link <?= activate_menu('employees/trackemployee'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Track Employee</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item has-treeview <?= activate_dropdown('dealers'); ?>">

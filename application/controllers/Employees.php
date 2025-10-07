@@ -49,6 +49,25 @@ class Employees extends MY_Controller {
 		$this->template->load('employees','edit',$data);
 	}
     
+	public function trackemployee($user_id=NULL){
+        $data['title']="Track Employee";
+        if($user_id!==NULL){
+            $employee=$this->employee->getemployees(array("md5(t1.user_id)"=>$user_id,'t1.status'=>1),"single");
+        }
+        //$data['subtitle']="Sample Subtitle";
+        $data['breadcrumb']=array();
+        if($user_id===NULL || empty($employee)){
+            $data['datatable']=true;
+            $data['employees']=$this->attendance->getactiveemployees();
+            $this->template->load('employees','activelist',$data);
+        }
+        else{
+            $data['employee']=$employee;
+            $where=array("date(added_on)"=>date('Y-m-d'),"user_id"=>$employee['user_id']);
+            $data['locations']=$this->attendance->getcurrentlocation($where);
+            $this->template->load('employees','trackemployee',$data);
+        }
+	}
     public function addemployee(){
         if($this->input->post('addemployee')!==NULL){
             $data=$this->input->post();

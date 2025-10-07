@@ -13,8 +13,10 @@ class Employee_model extends CI_Model{
         if($query->num_rows() ==0){
             $insert=$this->db->insert('employees',$data);
             if($insert){
+                $e_id=$this->db->insert_id();
                 $userdata=array("username"=>$data['mobile'],'password'=>random_string('numeric'),'role'=>'dso',
-                            'name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email'],'status'=>1);
+                                'name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email'],'e_id'=>$e_id,
+                                'status'=>1);
                 $this->account->adduser($userdata);
                 return array("status"=>true,"message"=>"Employee Added Successfully!");
             }else{

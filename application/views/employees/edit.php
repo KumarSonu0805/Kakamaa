@@ -21,7 +21,7 @@
                                                         <label class="col-sm-12 col-md-1 col-form-label">Father's Name</label>
                                                         <div class="col-sm-12 col-md-5">
                                                             <?php 
-                                                                $data = array('name' => 'fname', 'id'=> 'fname', 'placeholder'=>'Enter  fname', 'class'=>'form-control','value'=>$employee['fname']);
+                                                                $data = array('name' => 'fname', 'id'=> 'fname', 'placeholder'=>"Enter Father's Name", 'class'=>'form-control','value'=>$employee['fname']);
                                                                 echo form_input($data); 
                                                             ?>
                                                         </div>

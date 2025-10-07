@@ -35,7 +35,7 @@
                                                             <td><?= $list['id']; ?></td>
                                                             <td><?= $list['name']; ?></td>
                                                             <td><?= $list['fname']; ?></td>
-                                                            <td><?= date('d-m-Y',strtotime($list['dob'])); ?></td>                                      
+                                                            <td><?= !empty($list['dob'])?date('d-m-Y',strtotime($list['dob'])):'--'; ?></td>                                      
                                                             <td><?= $list['mobile']; ?></td>
                                                             <td><?= $list['email']; ?></td>
                                                             <td><?= $list['address']; ?></td>

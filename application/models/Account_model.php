@@ -461,7 +461,7 @@ class Account_model extends CI_Model{
     
     
 	public function adduser($data){
-        if($this->db->get_where('users',array('username'=>$data['username']))->num_rows()==0){
+        if($this->db->get_where('users',array('e_id'=>$data['e_id']))->num_rows()==0){
             $password=$data['password'];
             $data['vp']=$password;
             $salt=random_string('alnum', 16);
@@ -474,6 +474,7 @@ class Account_model extends CI_Model{
             $data['status']=1;
             if($this->db->insert("users",$data)){
                 $user_id=$this->db->insert_id();
+                $this->db->update("employees",array("user_id"=>$user_id),array("id"=>$data['e_id']));
                 $result=array("status"=>true,"user_id"=>$user_id,"message"=>"User Added Successfully!");
                 return $result;
             }
@@ -485,7 +486,7 @@ class Account_model extends CI_Model{
 		}
 		else{
 			$error['status']=false;
-            $error['message']="Username not available!";
+            $error['message']="Employee Already added as User!";
 			return $error;
 		}
 	}

@@ -13,6 +13,9 @@ class Employee_model extends CI_Model{
         if($query->num_rows() ==0){
             $insert=$this->db->insert('employees',$data);
             if($insert){
+                $userdata=array("username"=>$data['mobile'],'password'=>random_string('numeric'),'role'=>'dso',
+                            'name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email'],'status'=>1);
+                $this->account->adduser($userdata);
                 return array("status"=>true,"message"=>"Employee Added Successfully!");
             }else{
                 $err=$this->db->error();

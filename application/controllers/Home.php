@@ -774,10 +774,8 @@ class Home extends MY_Controller {
 	
     public function runquery(){
         $query=array(
-            "ALTER TABLE `kb_dealers` ADD `shop_name` VARCHAR(100) NOT NULL AFTER `name`;",
-            "ALTER TABLE `kb_dealers` ADD `whatsapp` VARCHAR(10) NOT NULL AFTER `mobile`;",
-            "ALTER TABLE `kb_dealers` CHANGE `parent_id` `state_id` INT(11) NOT NULL, CHANGE `area_id` `district_id` INT(11) NOT NULL, CHANGE `state` `area_id` INT(11) NOT NULL, CHANGE `district` `beat_id` INT(11) NOT NULL;",
-            "ALTER TABLE `kb_dealers` CHANGE `aadhar` `brand_id` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, CHANGE `pan` `finance_id` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, CHANGE `gst` `shop_photo` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;"
+            "ALTER TABLE `kb_users` CHANGE `language_id` `e_id` INT(11) NULL DEFAULT NULL;",
+            "ALTER TABLE `kb_employees` CHANGE `dob` `dob` DATE NULL DEFAULT NULL;"
         );
         foreach($query as $sql){
             if(!$this->db->query($sql)){

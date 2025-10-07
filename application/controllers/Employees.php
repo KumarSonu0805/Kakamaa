@@ -53,6 +53,9 @@ class Employees extends MY_Controller {
         if($this->input->post('addemployee')!==NULL){
             $data=$this->input->post();
             unset($data['addemployee']);
+            if(empty($data['dob']) || $data['dob']=='0000-00-00'){
+                $data['dob']=NULL;
+            }
             if(empty($data['date_of_join']) || $data['date_of_join']=='0000-00-00'){
                 $data['date_of_join']=NULL;
             }
@@ -79,6 +82,9 @@ class Employees extends MY_Controller {
         if($this->input->post('updateemployee')!==NULL){
             $data=$this->input->post();
             unset($data['updateemployee']);
+            if(empty($data['dob']) || $data['dob']=='0000-00-00'){
+                $data['dob']=NULL;
+            }
             if(empty($data['date_of_join']) || $data['date_of_join']=='0000-00-00'){
                 $data['date_of_join']=NULL;
             }

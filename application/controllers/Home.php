@@ -76,9 +76,11 @@ class Home extends MY_Controller {
         $user=getuser();
         $latitude=$this->input->post('lat');
         $longitude=$this->input->post('long');
-        $data=array("user_id"=>$user['id'],"latitude"=>$latitude,"longitude"=>$longitude);
-        $result=$this->attendance->savecurrentlocation($data);
-        print_pre($result);
+        if(!empty($latitude) && !empty($longitude)){
+            $data=array("user_id"=>$user['id'],"latitude"=>$latitude,"longitude"=>$longitude);
+            $result=$this->attendance->savecurrentlocation($data);
+            print_pre($result);
+        }
     }
     
     

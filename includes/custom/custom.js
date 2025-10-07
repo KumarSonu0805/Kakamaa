@@ -50,3 +50,38 @@ function createTomSelect(ele){
     plugins: []      // no tagging, no remove buttons
   });
 }
+
+// Simple show/hide functions
+function showLoader() {
+  document.getElementById('loader-overlay').style.display = 'flex';
+}
+function hideLoader() {
+  document.getElementById('loader-overlay').style.display = 'none';
+}
+
+function getLocation(loader=false){
+    if (!navigator.geolocation) {
+        hideLoader();
+        alert("Geolocation is not supported by your browser.");
+        return;
+    }
+    if(loader){
+        showLoader();
+    }
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const lat = pos.coords.latitude.toFixed(6);
+            const lng = pos.coords.longitude.toFixed(6);
+
+            // Fill form inputs
+            document.getElementById('emp-latitude').value = lat;
+            document.getElementById('emp-longitude').value = lng;
+            hideLoader();
+            saveLocation();
+        },
+        (err) => {
+            alert("Unable to retrieve your location. Error: " + err.message);
+        },
+        { enableHighAccuracy: true }
+    );
+}

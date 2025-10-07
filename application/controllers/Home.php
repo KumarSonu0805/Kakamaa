@@ -13,7 +13,15 @@ class Home extends MY_Controller {
         //$this->wallet->addallcommission();
         $data['title']="Home";
         $this->load->library('template');
-        $this->template->load('pages','home',$data);       
+        if($this->session->role=='admin'){
+            $this->template->load('pages','home',$data);
+        }
+        elseif($this->session->role=='dso'){
+            $this->template->load('pages','emphome',$data);
+        }
+        else{
+            $this->template->load('pages','home',$data);
+        }
     }
     
 	public function changepassword(){
@@ -61,6 +69,16 @@ class Home extends MY_Controller {
             }
         }
         redirect($_SERVER['HTTP_REFERER']);
+    }
+    
+    
+    public function savelocation(){
+        $user=getuser();
+        $latitude=$this->input->post('lat');
+        $longitude=$this->input->post('long');
+        $data=array("user_id"=>$user['id'],"latitude"=>$latitude,"longitude"=>$longitude);
+        $result=$this->attendance->savecurrentlocation($data);
+        print_pre($result);
     }
     
     
@@ -774,8 +792,29 @@ class Home extends MY_Controller {
 	
     public function runquery(){
         $query=array(
-            "ALTER TABLE `kb_users` CHANGE `language_id` `e_id` INT(11) NULL DEFAULT NULL;",
-            "ALTER TABLE `kb_employees` CHANGE `dob` `dob` DATE NULL DEFAULT NULL;"
+            "CREATE TABLE `kb_attendance` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `user_id` int(11) NOT NULL,
+ `date` date NOT NULL,
+ `type` varchar(3) NOT NULL DEFAULT 'In',
+ `attendance` int(1) NOT NULL,
+ `latitude` varchar(30) DEFAULT NULL,
+ `longitude` varchar(30) DEFAULT NULL,
+ `image` varchar(255) DEFAULT NULL,
+ `status` tinyint(1) NOT NULL DEFAULT 1,
+ `added_on` datetime NOT NULL,
+ `updated_on` datetime NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+            "CREATE TABLE `kb_current_locations` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `user_id` int(11) NOT NULL,
+ `latitude` varchar(50) NOT NULL,
+ `longitude` varchar(50) NOT NULL,
+ `status` tinyint(1) NOT NULL DEFAULT 1,
+ `added_on` datetime NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4"
         );
         foreach($query as $sql){
             if(!$this->db->query($sql)){

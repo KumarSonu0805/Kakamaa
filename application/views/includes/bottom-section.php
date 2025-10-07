@@ -15,6 +15,14 @@
         <?php
             }
         ?>
+
+        <input type="text" id="emp-latitude" class="d-none">
+        <input type="text" id="emp-longitude" class="d-none">
+        <!-- Loader Overlay -->
+        <div id="loader-overlay">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+
         <!-- Bootstrap 4 -->
         <script src="<?= file_url('includes/plugins/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
         <!-- AdminLTE App -->
@@ -47,5 +55,21 @@
         ?>
         <!-- Custom JS -->
         <script src="<?= file_url('includes/custom/custom.js'); ?>"></script>
+        <?php
+            if($this->session->role=='dso'){
+        ?>
+        <script>
+            $(document).ready(function(){
+                setInterval(saveLocation,10000);
+            });
+            function saveLocation(){
+                $.post('<?= base_url('home/savelocation') ?>',{lat:$('#emp-latitude').val(),long:$('#emp-longitude').val()},function(data){
+                    console.log(data);
+                });
+            }
+        </script>
+        <?php
+            }
+        ?>
     </body>
 </html>

@@ -22,7 +22,7 @@
 	if(!function_exists('checklogin')) {
   		function checklogin() {
     		$CI = get_instance();
-			if($CI->session->user===NULL || $CI->session->role!='admin' || $CI->session->project!=PROJECT_NAME ){
+			if($CI->session->user===NULL || $CI->session->project!=PROJECT_NAME ){
 				setredirecturl();
 				redirect(base_url('login/'));
 			}
@@ -34,7 +34,7 @@
 	if(!function_exists('loginredirect')) {
   		function loginredirect($url='home/') {
     		$CI = get_instance();
-			if($CI->session->user!==NULL && $CI->session->role=='admin' && $CI->session->project==PROJECT_NAME){
+			if($CI->session->user!==NULL && $CI->session->project==PROJECT_NAME){
 				if($CI->session->redirecturl!=NULL) {
 					$redirecturl=$CI->session->redirecturl;
 					$CI->session->unset_userdata('redirecturl');

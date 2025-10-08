@@ -794,18 +794,7 @@ class Home extends MY_Controller {
 	
     public function runquery(){
         $query=array(
-            "CREATE TABLE `kb_beat_assigned` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `emp_id` int(11) NOT NULL,
- `date` date NOT NULL,
- `beat_id` int(11) NOT NULL,
- `target` decimal(15,2) NOT NULL,
- `status` tinyint(1) NOT NULL DEFAULT 0,
- `added_on` datetime NOT NULL,
- `updated_on` datetime NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
-"
+            ""
         );
         foreach($query as $sql){
             if(!$this->db->query($sql)){

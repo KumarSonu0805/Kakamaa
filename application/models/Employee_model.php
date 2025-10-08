@@ -105,6 +105,29 @@ class Employee_model extends CI_Model{
         }
     }
     
+    public function savebeatassignment($data){
+        $this->db->where(array('date'=>$data['date'],'emp_id'=>$data['emp_id']));
+        $query=$this->db->get('beat_assigned');
+        if($query->num_rows() ==0){
+            $this->db->where(array('date'=>$data['date'],'beat_id'=>$data['beat_id']));
+            $query=$this->db->get('beat_assigned');
+            if($query->num_rows() ==0){
+                $insert=$this->db->insert('beat_assigned',$data);
+                if($insert){
+                    return array("status"=>true,"message"=>"Beat Assigned Successfully!");
+                }else{
+                    $err=$this->db->error();
+                    return array("status"=>false,"message"=>$err['message']);
+                }
+            }else{
+                return array("status"=>false,"message"=>"This Beat is Already Assigned to different DSO!");
+            }
+        }else{
+            return array("status"=>false,"message"=>"Beat Already Assigned to This DSO!");
+        }
+
+    }
+    
     public function getsalarydetails($array){
         if(isset($array['id'])){
             $where=array("t1.id"=>$array['id']);

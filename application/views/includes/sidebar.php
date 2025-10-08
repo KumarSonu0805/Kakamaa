@@ -115,6 +115,12 @@
                                             <p>Track Employee</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('employees/assignbeat/'); ?>" class="nav-link <?= activate_menu('employees/assignbeat'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Assign Beat</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item has-treeview <?= activate_dropdown('dealers'); ?>">

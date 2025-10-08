@@ -68,6 +68,15 @@ class Employees extends MY_Controller {
             $this->template->load('employees','trackemployee',$data);
         }
 	}
+    
+    public function assignbeat(){
+        $data['title']="Add Employee";
+        //$data['subtitle']="Sample Subtitle";
+        $data['breadcrumb']=array();
+        $data['tabulator']=true;
+		$this->template->load('employees','assignbeat',$data);
+	}
+    
     public function addemployee(){
         if($this->input->post('addemployee')!==NULL){
             $data=$this->input->post();
@@ -122,6 +131,22 @@ class Employees extends MY_Controller {
             }
         }
         redirect('employees/employeelist/');
+    }
+    
+    public function savebeatassignment(){
+        if($this->input->post('savebeatassignment')!==NULL){
+            $data=$this->input->post();
+            unset($data['savebeatassignment']);
+            //print_pre($data,true);
+            $result=$this->employee->savebeatassignment($data);
+            if($result['status']===true){
+                $this->set_flash("msg",$result['message']);
+            }
+            else{
+                $this->set_flash("err_msg",$result['message']);
+            }
+        }
+        redirect('employees/assignbeat/');
     }
     
 }

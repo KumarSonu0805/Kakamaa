@@ -47,7 +47,7 @@
                                                             </td>
                                                             <td>
                                                                <a href="<?= base_url('employees/editemployee/'.md5($list['id']));?>"  class="btn btn-xs text-white btn-warning"><i class="fa fa-edit"></i></a>
-                                                                <?php if($this->session->role=='admin'){  ?>
+                                                                <?php if($this->session->role=='admin' && false){  ?>
                                                                 <button type="button" value="<?= $list['id']; ?>" class="btn btn-danger btn-xs delete-btn"><i class="fa fa-trash"></i></button>
                                                                 <?php } ?>
                                                             </td>

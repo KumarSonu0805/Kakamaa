@@ -83,3 +83,17 @@
             return $options;
         }
     }
+
+    if(!function_exists('employee_dropdown')){
+        function employee_dropdown($col="e_id",$text="Employee"){
+            $CI = get_instance();
+            $options=array(''=>'Select '.$text);
+            $users=$CI->account->getusers(['t1.role'=>'dso']);
+            if(is_array($users)){
+                foreach($users as $user){
+                    $options[$user[$col]]=$user['name'];
+                }
+            }
+            return $options;
+        }
+    }

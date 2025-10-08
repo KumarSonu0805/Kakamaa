@@ -30,6 +30,8 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /tests/tests/
 /tests/results/
+/assets/images/employees/
+/assets/images/dealers/
 
 /lib_updater.php
 /mylib/

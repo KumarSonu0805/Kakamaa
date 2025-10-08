@@ -80,12 +80,12 @@ class Employees extends MY_Controller {
             }
             $upload_path='./assets/images/employees/';
             $allowed_types='gif|jpg|jpeg|png|svg';
-//            $upload=upload_file('photo',$upload_path,$allowed_types,$data['name'].'-photo');
-//            if($upload['status']===true){
-//                $data['photo']=$upload['path'];
-//            }
-//            else{ $data['photo']=''; }
-
+            $upload=upload_file('photo',$upload_path,$allowed_types,$data['name'].'-photo');
+            if($upload['status']===true){
+                $data['photo']=$upload['path'];
+            }
+            else{ $data['photo']=''; }
+            //print_pre($data,true);
             $result=$this->employee->addemployee($data);
             if($result['status']===true){
                 $this->set_flash("msg",$result['message']);
@@ -109,10 +109,10 @@ class Employees extends MY_Controller {
             }
             $upload_path='./assets/images/employees/';
             $allowed_types='gif|jpg|jpeg|png|svg';
-//            $upload=upload_file('photo',$upload_path,$allowed_types,$data['name'].'-photo');
-//            if($upload['status']===true){
-//                $data['photo']=$upload['path'];
-//            }
+            $upload=upload_file('photo',$upload_path,$allowed_types,$data['name'].'-photo');
+            if($upload['status']===true){
+                $data['photo']=$upload['path'];
+            }
             
             $result=$this->employee->updateemployee($data);
             if($result['status']===true){

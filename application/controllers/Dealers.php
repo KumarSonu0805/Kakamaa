@@ -21,8 +21,8 @@ class Dealers extends MY_Controller {
         }
         $data['states']=$options;
         
-        $sales=$this->account->getusers();
-        $options=array(""=>"Select Sales Person");
+        $sales=$this->account->getusers(['t1.role'=>'dso']);
+        $options=array(""=>"Select DSO");
         if(is_array($sales)){
             foreach($sales as $sale){
                 $options[$sale['id']]=$sale['name'];
@@ -141,22 +141,22 @@ class Dealers extends MY_Controller {
                 
                 $upload_path='./assets/images/dealers/';
                 $allowed_types='gif|jpg|jpeg|png|svg';
-                /*$upload=upload_file('aadhar',$upload_path,$allowed_types,$data['name'].'-aadhar');
+                $upload=upload_file('shop_photo',$upload_path,$allowed_types,$data['name'].'-shop_photo');
                 if($upload['status']===true){
-                    $data['aadhar']=$upload['path'];
+                    $data['shop_photo']=$upload['path'];
                 }
-                else{ $data['aadhar']=''; }
+                else{ $data['shop_photo']=''; }
 
-                $upload=upload_file('pan',$upload_path,$allowed_types,$data['name'].'-pan');
+                $upload=upload_file('photo',$upload_path,$allowed_types,$data['name'].'-photo');
                 if($upload['status']===true){
-                    $data['pan']=$upload['path'];
+                    $data['photo']=$upload['path'];
                 }
-                else{ $data['pan']=''; }*/
+                else{ $data['photo']=''; }
             
                 $data['user_id']=$result['user_id'];
                 $result=$this->dealer->adddealer($data);
                 if($result['status']===true){
-                    $message ="You account has been created Successfully!<br>Login Details : <br> Email : ".$userdata['username']."<br>";
+                    $message ="You account has been created Successfully!<br>Login Details : <br> Mobile : ".$userdata['username']."<br>";
                     $message.="Password : ".$userdata['password']."<br>";
                     $message.=PROJECT_NAME;
                     //sendemail($data['email'],"Dealer Registration",$message);

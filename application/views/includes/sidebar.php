@@ -166,7 +166,7 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    <li class="nav-item">
+                                    <li class="nav-item d-none">
                                         <a href="<?= base_url('customize/'); ?>" class="nav-link <?= activate_menu('customize'); ?>">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Banner Images</p>

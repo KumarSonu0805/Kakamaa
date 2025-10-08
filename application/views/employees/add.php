@@ -7,7 +7,7 @@
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-10">
+                                            <div class="col-md-12">
                                                 <?php echo form_open_multipart('employees/addemployee','id="myform"'); ?>
 
                                                      <div class="form-group row">
@@ -41,7 +41,7 @@
                                                             <?php 
                                                                 $data = array('name' => 'mobile', 'id'=> 'mobile', 'required'=>'true', 
                                                                               'placeholder'=>'Enter Mobile', 'class'=>'form-control',
-                                                                              'pattern'=>"[\d]{10}",'title'=>"Enter valid 10-digit number");
+                                                                              'pattern'=>"[\d]{10}",'title'=>"Enter valid 10-digit number","maxlength"=>"10");
                                                                 echo form_input($data); 
                                                             ?>
                                                         </div>

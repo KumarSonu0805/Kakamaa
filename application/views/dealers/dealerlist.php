@@ -61,7 +61,7 @@
                                                 field: "id", 
                                                 formatter: function(cell) {
                                                     let id = cell.getValue();
-                                                    return id;
+                                                    return '';
                                                 } 
                                             }
                                         ];

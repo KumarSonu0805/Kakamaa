@@ -11,17 +11,16 @@
                                                  <table class="table data-table stripe hover nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th class="table-plus">Sl No.</th>    
-                                                            <th>Employee ID</th>   
+                                                            <th class="table-plus">Sl No.</th>  
+                                                            <th>Photo</th>   
                                                             <th>Name</th>                                 
                                                             <th>Father's Name</th>
                                                             <th>DOB</th>
-                                                            <th>Mobile</th>
+                                                            <th>Mobile<br>(Login Username)</th>
                                                             <th>Email</th>
                                                             <th>Address</th>
                                                             <th>Gender</th>
                                                             <th>DOJ</th>
-                                                            <th>Photo</th>
                                                             <th>Password</th>
                                                             <th class="datatable-nosort">Action</th>
                                                         </tr>
@@ -33,7 +32,7 @@
                                                         ?>
                                                         <tr>
                                                             <td class="table-plus"><?= $i; ?></td>
-                                                            <td><?= $list['id']; ?></td>
+                                                            <td><img src="<?= $list['photo']; ?>" height="50" width="80" alt="image"></td>
                                                             <td><?= $list['name']; ?></td>
                                                             <td><?= $list['fname']; ?></td>
                                                             <td><?= !empty($list['dob'])?date('d-m-Y',strtotime($list['dob'])):'--'; ?></td>                                      
@@ -42,7 +41,6 @@
                                                             <td><?= $list['address']; ?></td>
                                                             <td><?= $list['gender']; ?></td>
                                                             <td><?= $list['date_of_join']; ?></td>
-                                                            <td><img src="<?= $list['photo']; ?>" height="50" width="80" alt="image"></td>
                                                             <td>
                                                                 <a href="#" onClick="$(this).hide();$(this).next().show();return false;">View Password</a>
                                                                 <p style="display: none;"><?= $list['password'] ?> <a href="#" onClick="$(this).parent().hide();$(this).parent().prev().show();return false;" class="text-danger"><i class="fa fa-times"></i></a></p>

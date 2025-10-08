@@ -113,7 +113,7 @@ class Employees extends MY_Controller {
             if($upload['status']===true){
                 $data['photo']=$upload['path'];
             }
-            
+            print_pre($data,true);
             $result=$this->employee->updateemployee($data);
             if($result['status']===true){
                 $this->set_flash("msg",$result['message']);

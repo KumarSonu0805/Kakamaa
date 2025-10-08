@@ -34,12 +34,27 @@ class Dealers extends MY_Controller {
 	}
 	
 	public function dealerlist(){
-        $data['title']="Dealer List";
-        //$data['subtitle']="Sample Subtitle";
-        $data['breadcrumb']=array();
-        $data['datatable']=true;
-        $data['dealers']=$this->dealer->getdealers(['t1.status'=>1]);
-		$this->template->load('dealers','list',$data);
+        if($this->input->get('type')===NULL){
+            $data['title']="Dealer List";
+            //$data['subtitle']="Sample Subtitle";
+            $data['breadcrumb']=array();
+            $data['tabulator']=true;
+            $data['dealers']=$this->dealer->getdealers(['t1.status'=>1]);
+            $this->template->load('dealers','dealerlist',$data);         
+        }
+        else{
+            $where=array('t1.status'=>1);
+            $area_id=$this->input->get('area_id');
+            if(!empty($area_id)){
+                $where['t1.area_id']=$area_id;
+            }
+            $beat_id=$this->input->get('beat_id');
+            if(!empty($beat_id)){
+                $where['t1.beat_id']=$beat_id;
+            }
+            $dealers=$this->dealer->getdealers($where);
+            echo json_encode($dealers);
+        }
 	}
     
 	public function editdealer($id=NULL){
@@ -82,6 +97,9 @@ class Dealers extends MY_Controller {
         $data['sales']=$options;
         
 		$this->template->load('dealers','edit',$data);
+	}
+    
+	public function beatwisedealerlist(){
 	}
     
 	public function map(){

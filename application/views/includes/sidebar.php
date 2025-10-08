@@ -135,6 +135,12 @@
                                             <p>Dealer List</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('dealers/dealermap/'); ?>" class="nav-link <?= activate_menu('dealers/dealermap'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Dealer Map</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item has-treeview <?= activate_dropdown('settings'); ?>">

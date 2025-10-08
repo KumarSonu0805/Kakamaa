@@ -102,9 +102,10 @@ class Dealers extends MY_Controller {
 	public function beatwisedealerlist(){
 	}
     
-	public function map(){
-        $data['title']="Map";
-		$this->template->load('dealers','map',$data);
+	public function dealermap(){
+        $data['title']="Dealer Map";
+        
+		$this->template->load('dealers','dealermap',$data);
 	}
 	
     public function getdistricts(){
@@ -122,6 +123,13 @@ class Dealers extends MY_Controller {
     public function adddealer(){
         if($this->input->post('adddealer')!==NULL){
             $data=$this->input->post();
+            //print_pre($data);
+            /*$data['shop_name']='Shop Name 10';
+            $data['name']='Dealer 10';
+            $data['mobile']='9876543229';
+            $data['whatsapp']='9876543229';
+            $data['email']='dealer10@gmail.com';*/
+            //print_pre($data,true);
             $userdata=array("username"=>$data['mobile'],'password'=>12345,'role'=>'dealer',
                             'name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email'],'status'=>1);
             
@@ -206,6 +214,25 @@ class Dealers extends MY_Controller {
             }
             echo json_encode($result);
         }
+    }
+    
+    public function getdealerlocations(){
+        $area_id=$this->input->post('area_id');
+        $beat_id=$this->input->post('beat_id');
+        if(!empty($area_id)){
+            $where['t1.area_id']=$area_id;
+        }
+        if(!empty($beat_id)){
+            $where['t1.beat_id']=$beat_id;
+        }
+        $dealers=$this->dealer->getdealers($where);
+        $latitudes=array_column($dealers,'latitude');
+        $longitudes=array_column($dealers,'longitude');
+        $locations=array();
+        foreach($latitudes as $key=>$latitude){
+            $locations[]=[$dealers[$key]['name'].' | '.$dealers[$key]['shop_name'],($latitude/1),($longitudes[$key]/1),file_url('assets/images/delivery-bike.svg')];
+        }
+        echo json_encode($locations);
     }
     
 }

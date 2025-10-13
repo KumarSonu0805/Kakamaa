@@ -59,5 +59,26 @@ class Beats extends MY_Controller {
         }
 	}
     
+	public function beatmap(){
+        $data['title']="Beat Map";
+        $data['user']=getuser();
+		$this->template->load('beats','beatmap',$data);
+	}
+	
+    public function getdealerlocations(){
+        $beat_id=$this->input->post('beat_id');
+        if(!empty($beat_id)){
+            $where['t1.beat_id']=$beat_id;
+        }
+        $dealers=$this->dealer->getdealers($where);
+        $latitudes=array_column($dealers,'latitude');
+        $longitudes=array_column($dealers,'longitude');
+        $locations=array();
+        foreach($latitudes as $key=>$latitude){
+            $locations[]=[$dealers[$key]['name'].' | '.$dealers[$key]['shop_name'],($latitude/1),($longitudes[$key]/1),file_url('assets/images/delivery-bike.svg')];
+        }
+        echo json_encode($locations);
+    }
+    
 }
     

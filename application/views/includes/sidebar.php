@@ -217,15 +217,21 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
+                                        <a href="<?= base_url('beats/assignedbeats/'); ?>" class="nav-link <?= activate_menu('beats/assignedbeats'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Assigned Beats</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="<?= base_url('beats/'); ?>" class="nav-link <?= activate_menu('beats'); ?>">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Beat Wise Dealer List</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="<?= base_url('beats/assignedbeats/'); ?>" class="nav-link <?= activate_menu('beats/assignedbeats'); ?>">
+                                        <a href="<?= base_url('beats/beatmap/'); ?>" class="nav-link <?= activate_menu('beats/beatmap'); ?>">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Assigned Beats</p>
+                                            <p>Beat Map</p>
                                         </a>
                                     </li>
                                 </ul>

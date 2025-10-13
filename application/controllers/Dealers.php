@@ -30,6 +30,7 @@ class Dealers extends MY_Controller {
         }
         $data['sales']=$options;
         $data['tomselect']=true;
+        $data['user']=getuser();
 		$this->template->load('dealers','add',$data);
 	}
 	
@@ -44,6 +45,10 @@ class Dealers extends MY_Controller {
         }
         else{
             $where=array('t1.status'=>1);
+            $user=getuser();
+            if($this->session->role!='dso'){
+                $where['t1.emp_user_id']=$user['id'];
+            }
             $area_id=$this->input->get('area_id');
             if(!empty($area_id)){
                 $where['t1.area_id']=$area_id;

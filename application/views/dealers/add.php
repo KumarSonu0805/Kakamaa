@@ -138,10 +138,10 @@
                                                             <?= form_dropdown('finance_id[]',finance_dropdown(),'',array('class'=>'','required'=>"true","id"=>"finance_id",'multiple'=>'true')); ?>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group row">
+                                                    <div class="form-group row <?= $user['role']=='dso'?'d-none':'' ?>">
                                                         <label class="col-sm-2 col-form-label">Added By</label>
                                                         <div class="col-sm-8">
-                                                            <?= form_dropdown('emp_user_id',$sales,'',array('class'=>'form-control','id'=>'emp_user_id','required'=>'true')); ?>
+                                                            <?= form_dropdown('emp_user_id',$sales,$user['id'],array('class'=>'form-control','id'=>'emp_user_id','required'=>'true')); ?>
                                                         </div>
                                                     </div>
                                                     <hr>

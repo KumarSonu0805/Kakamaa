@@ -77,132 +77,43 @@ class Employee_model extends CI_Model{
         }
     }
     
-    public function savesalary($data){
-        $emp_id=$data['emp_id'];
-        $getsalary=$this->db->get_where("salary",["emp_id"=>$emp_id,"status"=>1]);
-        $insert=true;
-        $message="Employee Salary Added Successfully!";
-        if($getsalary->num_rows()>0){
-            $salary=$getsalary->unbuffered_row()->salary;
-            if($salary!=$data['salary']){
-                $query=$this->db->update("salary",array("status"=>0),["emp_id"=>$emp_id]);
-            }
-            else{
-                $insert=false;
-                $message="No Changes Done!";
-                $query=true;
-            }
-        }
-        if($insert){
-            $query=$this->db->insert("salary",$data);
-        }
-        if($query){
-            return array("status"=>true,"message"=>$message);
-        }
-        else{
-            $error=$this->db->error();
-            return array("status"=>false,"message"=>$error['message']);
-        }
-    }
-    
     public function savebeatassignment($data){
-        $this->db->where(array('date'=>$data['date'],'emp_id'=>$data['emp_id']));
+        $this->db->where(array('beat_id'=>$data['beat_id']));
         $query=$this->db->get('beat_assigned');
-        if($query->num_rows() ==0){
-            $this->db->where(array('date'=>$data['date'],'beat_id'=>$data['beat_id']));
-            $query=$this->db->get('beat_assigned');
-            if($query->num_rows() ==0){
-                $insert=$this->db->insert('beat_assigned',$data);
-                if($insert){
-                    return array("status"=>true,"message"=>"Beat Assigned Successfully!");
-                }else{
-                    $err=$this->db->error();
-                    return array("status"=>false,"message"=>$err['message']);
-                }
+        if($query->num_rows()==0){
+            $data['added_on']=$data['updated_on']=date('Y-m-d H:i:s');
+            $insert=$this->db->insert('beat_assigned',$data);
+            if($insert){
+                return array("status"=>true,"message"=>"Beat Assigned Successfully!");
             }else{
-                return array("status"=>false,"message"=>"This Beat is Already Assigned to different DSO!");
+                $err=$this->db->error();
+                return array("status"=>false,"message"=>$err['message']);
             }
-        }else{
-            return array("status"=>false,"message"=>"Beat Already Assigned to This DSO!");
-        }
-
-    }
-    
-    public function getsalarydetails($array){
-        if(isset($array['id'])){
-            $where=array("t1.id"=>$array['id']);
         }
         else{
-            $where=$array;
-        }
-        $columns = "t1.id,t1.name,t1.designation,t1.mobile,t1.email,t1.date_of_join,t2.salary as basic_salary";
-        $this->db->select($columns);
-        $this->db->where($where);
-        $this->db->from("employees t1");
-        $this->db->join("salary t2","t1.id=t2.emp_id and t2.status=1");
-        $query=$this->db->get();
-        $array=$query->unbuffered_row('array');
-        return $array;
-    }
-    
-    public function getmonthlysalary($array){
-        $emp_id=$array['emp_id'];
-        
-        if(isset($array['month'])){
-            $month=date('m',strtotime($array['month']));
-            $year=date('Y',strtotime($array['month']));
-            $first_date=date('Y-m-01',strtotime($array['month']));
-        }
-        else{
-            $month=date('m');
-            $year=date('Y');
-            $first_date=date('Y-m-01');
-        }
-        $basic_salary=0;
-        $this->db->order_by("added_on desc");
-        $getsalary=$this->db->get_where("salary","emp_id='$emp_id' and date(added_on)<'$first_date'");
-        if($getsalary->num_rows()==0){
-            $basic_salary=$this->db->get_where('employees',array("id"=>$emp_id))->unbuffered_row()->basic_salary;
-        }
-        else{
-            $basic_salary=$getsalary->unbuffered_row()->salary;
-        }
-        return $basic_salary;
-    }
-    
-    public function salarypayment($data){
-        $data['date']=date('Y-m-d');
-        $data['added_on']=date('Y-m-d H:i:s');
-        
-        $month=date('m',strtotime($data['pay_month']));
-        $year=date('Y',strtotime($data['pay_month']));
-        $where="emp_id='$data[emp_id]' and month(pay_month)='$month' and year(pay_month)='$year'";
-        if($this->db->get_where("salary_payment",$where)->num_rows()==0){
-            if($this->db->insert("salary_payment",$data)){
-                return array("status"=>true,"message"=>"Salary Payment Done!");
+            $emp_id=$query->unbuffered_row()->emp_id;
+            if($data['emp_id']==$emp_id){
+                $message="This Beat is Already Assigned to this DSO!";
             }
             else{
-                $error=$this->db->error();
-                return array("status"=>false,"message"=>$error['message']);
+                $message="This Beat is Already Assigned to different DSO!";
             }
-        }
-        else{
-            return array("status"=>false,"message"=>"Salary Already Paid!");
+            return array("status"=>false,"message"=>$message);
         }
     }
     
-    public function getsalaryreport($where=array(),$type="all",$orderby="t1.id",$col=false){
-        if($col===false){
-            $columns="t1.*, t2.name, t2.mobile, t2.email";
-        }
-        else{
-            $columns="t1.id, t1.`date`, t1.`emp_id`, t1.`name`, t2.mobile, t2.email, t1.`pay_month`, t1.`salary`,t1.`deduction`, t1.`net_salary`";
+    public function getassignedbeats($where=array(),$type="all",$order_by="a.id",$columns=false){
+        if($columns===false){
+            $columns="t1.*,t2.name as state_name,t3.name as district_name,t4.name as area_name";
         }
         $this->db->select($columns);
-        $this->db->from("salary_payment t1");
-        $this->db->join("employees t2","t1.emp_id=t2.id","left");
         $this->db->where($where);
-        $this->db->order_by($orderby);
+        $this->db->order_by($order_by);
+        $this->db->from('beat_assigned a');
+        $this->db->join('beats t1','a.beat_id=t1.id');
+        $this->db->join('states t2','t1.state_id=t2.id');
+        $this->db->join('districts t3','t1.district_id=t3.id');
+        $this->db->join('areas t4','t1.area_id=t4.id');
         $query=$this->db->get();
         if($type=='all'){
             $array=$query->result_array();

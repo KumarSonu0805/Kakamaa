@@ -70,7 +70,7 @@ class Employees extends MY_Controller {
 	}
     
     public function assignbeat(){
-        $data['title']="Add Employee";
+        $data['title']="Assign Beat";
         //$data['subtitle']="Sample Subtitle";
         $data['breadcrumb']=array();
         $data['tabulator']=true;
@@ -136,6 +136,7 @@ class Employees extends MY_Controller {
     public function savebeatassignment(){
         if($this->input->post('savebeatassignment')!==NULL){
             $data=$this->input->post();
+            $data['date']=$data['date']?:date('Y-m-d');
             unset($data['savebeatassignment']);
             //print_pre($data,true);
             $result=$this->employee->savebeatassignment($data);

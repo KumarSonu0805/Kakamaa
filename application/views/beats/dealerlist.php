@@ -4,26 +4,8 @@
                                             <div class="card-header"><?= $title; ?></div>
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="col-12">
-                                                        <?= form_open_multipart('employees/savebeatassignment'); ?>
-                                                            <div class="row">
-                                                                <div class="col-md-3">
-                                                                    <?= create_form_input('select','emp_id','DSO',true,'',['id'=>'emp_id'],employee_dropdown("e_id","DSO")); ?>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <?= create_form_input('select','','Area',true,$this->input->get('area_id'),['id'=>'area_id'],area_dropdown()); ?>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <?php //not assigned beats ?>
-                                                                    <?= create_form_input('select','beat_id','Beat',true,$this->input->get('beat_id'),['id'=>'beat_id'],beat_dropdown()); ?>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-2">
-                                                                <div class="col-12">
-                                                                    <input type="submit" name="savebeatassignment" class="btn btn-sm btn-success" value="Assign Beat">
-                                                                </div>
-                                                            </div>
-                                                        <?= form_close(); ?>
+                                                    <div class="col-md-3">
+                                                        <?= create_form_input('select','','Beat',true,$this->input->get('beat_id'),['id'=>'beat_id'],beat_dropdown("t1.id in (SELECT beat_id from ".TP."beat_assigned where emp_id='$user[e_id]')")); ?>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -38,7 +20,7 @@
 <script>
                                 $(document).ready(function(e) {
 
-                                    var url="<?= base_url('dealers/dealerlist/?type=data&area_id=-1'); ?>";
+                                    var url="<?= base_url('beats/?type=data'); ?>";
                                     var columns=[
                                             { 
                                                 title: "Sl.No.", 
@@ -106,23 +88,9 @@
                                         table.clearFilter();
                                     });
 
-                                    $('body').on('change','#area_id',function(){
-                                        var area_id=$(this).val();
-                                        $.ajax({
-                                            type:"post",
-                                            url:"<?= base_url('masterkey/getbeatdropdown/'); ?>",
-                                            data:{area_id:$(this).val(),beat_id:''},
-                                            success:function(data){
-                                                $('#beat_id').replaceWith(data);
-                                            }
-                                        });
-                                        var dealer_url="<?= base_url('dealers/dealerlist/?type=data'); ?>&area_id="+area_id;
-                                        refreshTableData(dealer_url);
-                                    });
                                     $('body').on('change','#beat_id',function(){
-                                        var area_id=$('#area_id').val();
                                         var beat_id=$(this).val();
-                                        var dealer_url="<?= base_url('dealers/dealerlist/?type=data'); ?>&area_id="+area_id+"&beat_id="+beat_id;
+                                        var dealer_url="<?= base_url('beats/?type=data'); ?>&beat_id="+beat_id;
                                         refreshTableData(dealer_url);
                                     });
                                 });

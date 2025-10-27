@@ -121,6 +121,12 @@
                                             <p>Assign Beat</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('employees/assignedbeats/'); ?>" class="nav-link <?= activate_menu('employees/assignedbeats'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Assigned Beat</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item has-treeview <?= activate_dropdown('dealers'); ?>">

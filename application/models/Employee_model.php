@@ -104,7 +104,7 @@ class Employee_model extends CI_Model{
     
     public function getassignedbeats($where=array(),$type="all",$order_by="a.id",$columns=false){
         if($columns===false){
-            $columns="t1.*,t2.name as state_name,t3.name as district_name,t4.name as area_name";
+            $columns="t1.*,t2.name as state_name,t3.name as district_name,t4.name as area_name,t5.name as emp_name";
         }
         $this->db->select($columns);
         $this->db->where($where);
@@ -114,6 +114,7 @@ class Employee_model extends CI_Model{
         $this->db->join('states t2','t1.state_id=t2.id');
         $this->db->join('districts t3','t1.district_id=t3.id');
         $this->db->join('areas t4','t1.area_id=t4.id');
+        $this->db->join('employees t5','a.emp_id=t5.id');
         $query=$this->db->get();
         if($type=='all'){
             $array=$query->result_array();

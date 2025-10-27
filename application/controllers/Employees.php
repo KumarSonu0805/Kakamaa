@@ -77,6 +77,21 @@ class Employees extends MY_Controller {
 		$this->template->load('employees','assignbeat',$data);
 	}
     
+    public function assignedbeats(){
+        if($this->input->get('type')===NULL){
+            $data['title']="Assigned Beat";
+            //$data['subtitle']="Sample Subtitle";
+            $data['breadcrumb']=array();
+            $data['tabulator']=true;
+            $this->template->load('employees','assignedbeats',$data);
+        }
+        else{
+            $where=array();
+            $beats=$this->employee->getassignedbeats($where);
+            echo json_encode($beats);
+        }
+	}
+    
     public function addemployee(){
         if($this->input->post('addemployee')!==NULL){
             $data=$this->input->post();
@@ -135,16 +150,23 @@ class Employees extends MY_Controller {
     
     public function savebeatassignment(){
         if($this->input->post('savebeatassignment')!==NULL){
-            $data=$this->input->post();
-            $data['date']=$data['date']?:date('Y-m-d');
-            unset($data['savebeatassignment']);
-            //print_pre($data,true);
-            $result=$this->employee->savebeatassignment($data);
-            if($result['status']===true){
-                $this->set_flash("msg",$result['message']);
+            $emp_id=$this->input->post('emp_id');
+            $beat_ids=$this->input->post('beat_id');
+            $data=array();
+            if(!empty($beat_ids)){
+                foreach($beat_ids as $beat_id){
+                    $data=array('emp_id'=>$emp_id,'beat_id'=>$beat_id);
+                    $result=$this->employee->savebeatassignment($data);
+                    if($result['status']===true){
+                        $this->set_flash("msg",$result['message']);
+                    }
+                    else{
+                        $this->set_flash("err_msg",$result['message']);
+                    }
+                }
             }
             else{
-                $this->set_flash("err_msg",$result['message']);
+                $this->set_flash("err_msg","Please Select Beat!");
             }
         }
         redirect('employees/assignbeat/');

@@ -316,46 +316,7 @@ class Home extends MY_Controller {
 	
     public function runquery(){
         $query=array(
-            "CREATE TABLE `kb_daily_job` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `date` date NOT NULL,
-                `user_id` int(11) NOT NULL,
-                `type` varchar(30) NOT NULL,
-                `beat_id` int(11) DEFAULT NULL,
-                `added_on` datetime NOT NULL,
-                `updated_on` datetime NOT NULL,
-                PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
-            "CREATE TABLE `kb_gallery` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `user_id` int(11) NOT NULL,
-                `type` varchar(20) NOT NULL,
-                `path` varchar(200) NOT NULL,
-                `status` tinyint(1) NOT NULL DEFAULT 1,
-                `added_on` datetime NOT NULL,
-                `updated_on` datetime NOT NULL,
-                PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
-            "CREATE TABLE `kb_visit_report` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `date` date NOT NULL,
-                `dealer_id` int(11) NOT NULL,
-                `order_qty` int(11) NOT NULL,
-                `order_commitment` date DEFAULT NULL,
-                `collection` tinyint(1) NOT NULL DEFAULT 0,
-                `collection_type` varchar(30) DEFAULT NULL,
-                `collection_amount` decimal(14,2) DEFAULT NULL,
-                `cheque_details` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`cheque_details`)),
-                `collection_commitment` date DEFAULT NULL,
-                `remarks` text NOT NULL,
-                `user_id` int(11) NOT NULL,
-                `status` tinyint(1) NOT NULL DEFAULT 1,
-                `added_on` datetime NOT NULL,
-                `updated_on` datetime NOT NULL,
-                PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
-                "ALTER TABLE `kb_gallery` ADD `uploaded_by` INT NOT NULL AFTER `path`;",
-                "ALTER TABLE `kb_visit_report` ADD `latitude` VARCHAR(50) NOT NULL AFTER `remarks`, ADD `longitude` VARCHAR(50) NOT NULL AFTER `latitude`;"
+            ""
         );
         foreach($query as $sql){
             if(!$this->db->query($sql)){

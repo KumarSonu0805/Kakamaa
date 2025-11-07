@@ -19,6 +19,7 @@ class Dealer_model extends CI_Model{
     public function getdealers($where=array(),$type="all",$orderby="t1.id"){
         $default=file_url('assets/images/default.jpg');
         $columns="t1.*, t2.username,t2.vp as password, 
+                    case when t1.shop_photo='' then '$default' else concat('".file_url()."',t1.shop_photo) end as shop_photo,
                     case when t1.photo='' then '$default' else concat('".file_url()."',t1.photo) end as photo,
                     t2.status as user_status,t3.name as added_by,t4.name as state_name,t5.name as district_name,
                     t6.name as area_name,t7.name as beat_name";
@@ -66,6 +67,69 @@ class Dealer_model extends CI_Model{
         }
     }
     
+    public function savedealerimage($data){
+        if($data['type']=='monthly'){
+            $this->db->update('gallery',['status'=>0],['type'=>'monthly']);
+        }
+        $data['added_on']=$data['updated_on']=date('Y-m-d H:i:s');
+        if($this->db->insert("gallery",$data)){
+            return array("status"=>true,"message"=>"Dealer Added Successfully!");
+        }
+        else{
+            $error=$this->db->error();
+            return array("status"=>false,"message"=>$error['message']);
+        }
+    }
+    
+    public function getdealerimages($where=array(),$type="all",$orderby="t1.id"){
+        $default=file_url('assets/images/default.jpg');
+        $columns="t1.*, t2.username,t2.vp as password, 
+                    case when t1.shop_photo='' then '$default' else concat('".file_url()."',t1.shop_photo) end as shop_photo,
+                    case when t1.photo='' then '$default' else concat('".file_url()."',t1.photo) end as photo,
+                    t2.status as user_status,t3.name as added_by,t4.name as state_name,t5.name as district_name,
+                    t6.name as area_name,t7.name as beat_name";
+        //$this->db->select($columns);
+        $this->db->from("gallery t1");
+        $this->db->join("dealers t2","t1.user_id=t2.user_id");
+        $this->db->join("users t3","t2.user_id=t3.id");
+        $this->db->where($where);
+        $this->db->order_by($orderby);
+        $query=$this->db->get();
+        if($type=='all'){
+            $array=$query->result_array();
+        }
+        else{
+            $array=$query->unbuffered_row('array');
+        }
+        return $array;
+    }
+    
+    public function savevisitreport($data){
+        $data['status']=1;
+        $datetime=date('Y-m-d H:i:s');
+        $data['added_on']=$data['updated_on']=$datetime;
+        if($this->db->insert("visit_report",$data)){
+            return array("status"=>true,"message"=>"Dealer Visit Report Saved Successfully!");
+        }
+        else{
+            $error=$this->db->error();
+            return array("status"=>false,"message"=>$error['message']);
+        }
+    }
+    
+    public function getvisitreports($where=array(),$type="all"){
+        $this->db->where($where);
+        $this->db->from("visit_report");
+        $query=$this->db->get();
+        if($type=='all'){
+            $array=$query->result_array();
+        }
+        else{
+            $array=$query->unbuffered_row('array');
+        }
+        return $array;
+    }
+
     public function saveaddress($data){
         $data['state']=$this->db->get_where("area",array("id"=>$data['parent_id']))->unbuffered_row()->name;
         $data['district']=$this->db->get_where("area",array("id"=>$data['area_id']))->unbuffered_row()->name;

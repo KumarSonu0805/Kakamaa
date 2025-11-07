@@ -242,6 +242,20 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="nav-item has-treeview <?= activate_dropdown(['visitreport']); ?>">
+                                <a href="#" class="nav-link <?= activate_dropdown(['visitreport'],'a'); ?>">
+                                    <i class="nav-icon fas fa-file-alt"></i>
+                                    <p>Dealer Visit Report<i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('visitreport/'); ?>" class="nav-link <?= activate_menu('visitreport'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add DVR</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <?php } ?>
                         </ul>
                     </nav>

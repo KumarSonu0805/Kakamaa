@@ -51,7 +51,12 @@
                                     $.post('<?= base_url('dealers/getdealerlocations') ?>',
                                            {area_id:area_id,beat_id:beat_id},
                                            function(data){
-                                            showInMap(data)
+                                            if(data!='[]'){
+                                                showInMap(data)
+                                            }
+                                            else{
+                                                $('#map').replaceWith('<div id="map"></div>');
+                                            }
                                     });
                                 }
                             </script>

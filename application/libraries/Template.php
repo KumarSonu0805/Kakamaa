@@ -115,6 +115,10 @@ class Template {
 			$this->loadtomselect();
 		}
 		
+		if(isset($data['leaflet']) && $data['leaflet']===true){
+			$this->loadleaflet();
+		}
+		
 		$this->loadtoastr();
         $data['styles']=$this->styles;
 		$data['top_script']=$this->top_script;
@@ -180,6 +184,11 @@ class Template {
 	function loadtomselect(){
 		$this->styles['link'][]="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css";
 		$this->content_script['link'][]="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js";
+	}
+	
+	function loadleaflet(){
+		$this->styles['link'][]="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+		$this->content_script['link'][]="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
 	}
 	
 }

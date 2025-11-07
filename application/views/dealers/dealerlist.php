@@ -58,10 +58,10 @@
                                             },
                                             { 
                                                 title: "Action", 
-                                                field: "id", 
+                                                field: "action", 
                                                 formatter: function(cell) {
-                                                    let id = cell.getValue();
-                                                    return '';
+                                                    let action = cell.getValue();
+                                                    return action;
                                                 } 
                                             }
                                         ];

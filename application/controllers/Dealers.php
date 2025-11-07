@@ -46,7 +46,7 @@ class Dealers extends MY_Controller {
         else{
             $where=array('t1.status'=>1);
             $user=getuser();
-            if($this->session->role!='dso'){
+            if($this->session->role=='dso'){
                 $where['t1.emp_user_id']=$user['id'];
             }
             $area_id=$this->input->get('area_id');
@@ -58,6 +58,15 @@ class Dealers extends MY_Controller {
                 $where['t1.beat_id']=$beat_id;
             }
             $dealers=$this->dealer->getdealers($where);
+            if(!empty($dealers)){
+                foreach($dealers as $key=>$dealer){
+                    $action='';
+                    //if($user['role']=='dso'){
+                        $action='<a href="'.base_url('dealers/dealerimages/'.$dealer['username']).'" class="btn btn-sm btn-info"><i class="fas fa-image"></i></a>';
+                    //}
+                    $dealers[$key]['action']=$action;
+                }
+            }
             echo json_encode($dealers);
         }
 	}
@@ -102,6 +111,22 @@ class Dealers extends MY_Controller {
         $data['sales']=$options;
         
 		$this->template->load('dealers','edit',$data);
+	}
+    
+	public function dealerimages($username=NULL){
+        if($username===NULL){
+            redirect('dealers/dealerlist/');
+        }
+        $data['title']="Dealer Images";
+        //$data['subtitle']="Sample Subtitle";
+        $data['breadcrumb']=array();
+        $dealer=$this->dealer->getdealers(array("t2.username"=>$username,'t1.status'=>1),"single");
+        if(empty($dealer) || !is_array($dealer)){
+            redirect('dealers/dealerlist/');
+        }
+        $data['dealer']=$dealer;
+        $data['images']=$this->dealer->getdealerimages(['t2.id'=>$dealer['id']]);
+		$this->template->load('dealers','dealerimages',$data);
 	}
     
 	public function beatwisedealerlist(){
@@ -224,20 +249,57 @@ class Dealers extends MY_Controller {
     public function getdealerlocations(){
         $area_id=$this->input->post('area_id');
         $beat_id=$this->input->post('beat_id');
+        $where=array();
         if(!empty($area_id)){
             $where['t1.area_id']=$area_id;
         }
         if(!empty($beat_id)){
             $where['t1.beat_id']=$beat_id;
         }
-        $dealers=$this->dealer->getdealers($where);
-        $latitudes=array_column($dealers,'latitude');
-        $longitudes=array_column($dealers,'longitude');
         $locations=array();
-        foreach($latitudes as $key=>$latitude){
-            $locations[]=[$dealers[$key]['name'].' | '.$dealers[$key]['shop_name'],($latitude/1),($longitudes[$key]/1),file_url('assets/images/delivery-bike.svg')];
+        if(!empty($where)){
+            $dealers=$this->dealer->getdealers($where);
+            $latitudes=array_column($dealers,'latitude');
+            $longitudes=array_column($dealers,'longitude');
+            foreach($latitudes as $key=>$latitude){
+                $locations[]=[$dealers[$key]['name'].' | '.$dealers[$key]['shop_name'],($latitude/1),($longitudes[$key]/1),file_url('assets/images/delivery-bike.svg')];
+            }
         }
         echo json_encode($locations);
     }
     
+    public function uploadimage(){
+        if($this->input->post('uploadimage')!==NULL){
+            $user=getuser();
+            $data=$this->input->post();
+            $dealer=$this->dealer->getdealers(array("md5(concat('dealer-id-',t1.id))"=>$data['id'],'t1.status'=>1),"single");
+            if(!empty($dealer)){
+                $upload_path='./assets/images/dealers/';
+                $allowed_types='gif|jpg|jpeg|png|svg';
+                $upload=upload_file('image',$upload_path,$allowed_types,$dealer['name'].'-monthly-image');
+                if($upload['status']===true){
+                    unset($data['uploadimage'],$data['id']);
+                    $data['path']=$upload['path'];
+                    $data['user_id']=$dealer['user_id'];
+                    $data['uploaded_by']=$user['id'];
+                    $result=$this->dealer->savedealerimage($data);
+                    if($result['status']==true){
+                        $this->session->set_flashdata('msg',$result['message']);
+                    }
+                    else{
+                        $this->session->set_flashdata('err_msg',$result['message']);
+                    }
+                }
+                else{ 
+                    $this->session->set_flashdata('err_msg',"Image not uploaded! ".trim($upload['msg']));
+                }
+            }
+            else{ 
+                $this->session->set_flashdata('err_msg',"Please Try Again!");
+            }
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+
 }

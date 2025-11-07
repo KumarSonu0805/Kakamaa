@@ -58,3 +58,5 @@ $route['forgot-password']='login/forgotpassword';
 $route['enter-otp']='login/enterotp';
 $route['reset-password']='login/resetpassword';
 $route['logout']='login/logout';
+
+$route['markattendance']='home/markattendance';

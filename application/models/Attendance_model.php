@@ -29,17 +29,17 @@ class Attendance_model extends CI_Model{
         $countattendance=$getattendance->num_rows();
         if($countattendance>0){
             if($countattendance==1){
-                return array("status"=>true,"message"=>"Start Tracking!");
+                return array("status"=>true,"message"=>"Start Tracking!",'count'=>$countattendance);
             }
             elseif($countattendance==2){
-                return array("status"=>false,"message"=>"Stop Tracking!");
+                return array("status"=>false,"message"=>"Stop Tracking!",'count'=>$countattendance);
             }
             else{
-                return array("status"=>false,"message"=>"Cannot Track!");
+                return array("status"=>false,"message"=>"Cannot Track!",'count'=>$countattendance);
             }
         }
         else{
-            return array("status"=>false,"message"=>"Attendance not Done!");
+            return array("status"=>false,"message"=>"Attendance not Done!",'count'=>$countattendance);
         }
     }
     
@@ -61,7 +61,7 @@ class Attendance_model extends CI_Model{
     
     public function savecurrentlocation($data){
         $where=$data;
-        $result=$this->checkattendance($data['user_id']);
+        /*$result=$this->checkattendance($data['user_id']);
         if($result['status']===false && $result['message']=="Attendance not Done!"){
             $adata=$data;
             $adata['date']=date('Y-m-d');
@@ -69,7 +69,7 @@ class Attendance_model extends CI_Model{
             $adata['attendance']=1;
             $adata['added_on']=$adata['updated_on']=date('Y-m-d H:i:s');
             $this->saveattendance($adata);
-        }
+        }*/
         $data['added_on']=date('Y-m-d H:i:s');
         $this->db->update("current_locations",["status"=>0],["user_id"=>$data['user_id'],"date(added_on)"=>date('Y-m-d')]);
         if($this->db->insert("current_locations",$data)){

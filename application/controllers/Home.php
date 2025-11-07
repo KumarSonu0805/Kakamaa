@@ -12,11 +12,15 @@ class Home extends MY_Controller {
         //$this->clearlogs();
         //$this->wallet->addallcommission();
         $data['title']="Home";
-        $this->load->library('template');
         if($this->session->role=='admin'){
             $this->template->load('pages','home',$data);
         }
         elseif($this->session->role=='dso'){
+            $user=getuser();
+            $checkattendance=$this->attendance->checkattendance($user['id']);
+            if($checkattendance['status']===false && $checkattendance['message']=="Attendance not Done!"){
+                redirect('markattendance/');
+            }
             $this->template->load('pages','emphome',$data);
         }
         else{
@@ -25,20 +29,28 @@ class Home extends MY_Controller {
     }
     
 	public function changepassword(){
-        checklogin();
-        $getuser=$this->account->getuser(array("md5(id)"=>$this->session->user));
-        if($getuser['status']===true){
-            $data['user']=$getuser['user'];
-        }
-        else{
-            redirect('home/');
-        }
+        $data['user']=getuser();
         $data['title']="Edit Password";
         //$data['subtitle']="Sample Subtitle";
         $data['breadcrumb']=array();
         $data['alertify']=true;
-        $this->load->library('template');
 		$this->template->load('pages','changepassword',$data);
+	}
+    
+	public function markattendance(){
+        $data['user']=getuser();
+        $checkattendance=$this->attendance->checkattendance($data['user']['id']);
+        if($checkattendance['status']===false && $checkattendance['message']=="Attendance not Done!"){
+            $data['title']="Mark Attendance";
+            //$data['subtitle']="Sample Subtitle";
+            $data['breadcrumb']=array();
+            $data['alertify']=true;
+            $data['checkattendance']=$checkattendance;
+            $this->template->load('pages','markattendance',$data);
+        }
+        else{
+            redirect('/');
+        }
 	}
     
     public function updatepassword(){
@@ -71,15 +83,62 @@ class Home extends MY_Controller {
         redirect($_SERVER['HTTP_REFERER']);
     }
     
+    public function saveattendance(){
+        if($this->input->post('saveattendance')!==NULL){
+            $data=$this->input->post();
+            $user=getuser();
+            $checkattendance=$this->attendance->checkattendance($user['id']);
+            if($checkattendance['count']<2){
+                $type='In';
+                if($checkattendance['count']==1){
+                    $text="Out";
+                }
+                $data['user_id']=$user['id'];
+                $upload_path='./assets/images/employees/meter/';
+                $allowed_types='gif|jpg|jpeg|png|svg';
+                $upload=upload_file('image',$upload_path,$allowed_types,$user['name'].'-'.date('Y-m-d').'-'.$type.'-bike-meter');
+                if($upload['status']===true){
+                    $data['date']=date('Y-m-d');
+                    $data['attendance']=1;
+                    $datetime=date("Y-m-d H:i:s");
+                    $data['added_on']=$data['updated_on']=$datetime;
+                    $data['type']=$type;
+                    unset($data['username'],$data['saveattendance']);
+                    $data['image']=$upload['path'];
+                    $result=$this->attendance->saveattendance($data);
+                    if($result['status']==true){
+                        $this->session->set_flashdata('msg',$result['message']);
+                    }
+                    else{
+                        $this->session->set_flashdata('err_msg',$result['message']);
+                    }
+                }
+                else{ 
+                    $this->session->set_flashdata('err_msg',"Image not uploaded! ".trim($upload['msg']));
+                }
+            }
+            else{ 
+                $this->session->set_flashdata('err_msg',"Today's Attendance already Done!");
+            }
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+    
     
     public function savelocation(){
         $user=getuser();
-        $latitude=$this->input->post('lat');
-        $longitude=$this->input->post('long');
-        if(!empty($latitude) && !empty($longitude)){
-            $data=array("user_id"=>$user['id'],"latitude"=>$latitude,"longitude"=>$longitude);
-            $result=$this->attendance->savecurrentlocation($data);
-            print_pre($result);
+        $checkattendance=$this->attendance->checkattendance($user['id']);
+        if($checkattendance['status']==true){
+            $latitude=$this->input->post('lat');
+            $longitude=$this->input->post('long');
+            if(!empty($latitude) && !empty($longitude)){
+                $data=array("user_id"=>$user['id'],"latitude"=>$latitude,"longitude"=>$longitude);
+                $result=$this->attendance->savecurrentlocation($data);
+                echo json_encode($result);
+            }
+        }
+        else{
+            echo 'Attendance not Done';
         }
     }
     
@@ -257,7 +316,46 @@ class Home extends MY_Controller {
 	
     public function runquery(){
         $query=array(
-            "ALTER TABLE `kb_beat_assigned` CHANGE `date` `date` DATE NULL DEFAULT NULL;"
+            "CREATE TABLE `kb_daily_job` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `date` date NOT NULL,
+                `user_id` int(11) NOT NULL,
+                `type` varchar(30) NOT NULL,
+                `beat_id` int(11) DEFAULT NULL,
+                `added_on` datetime NOT NULL,
+                `updated_on` datetime NOT NULL,
+                PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
+            "CREATE TABLE `kb_gallery` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `user_id` int(11) NOT NULL,
+                `type` varchar(20) NOT NULL,
+                `path` varchar(200) NOT NULL,
+                `status` tinyint(1) NOT NULL DEFAULT 1,
+                `added_on` datetime NOT NULL,
+                `updated_on` datetime NOT NULL,
+                PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
+            "CREATE TABLE `kb_visit_report` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `date` date NOT NULL,
+                `dealer_id` int(11) NOT NULL,
+                `order_qty` int(11) NOT NULL,
+                `order_commitment` date DEFAULT NULL,
+                `collection` tinyint(1) NOT NULL DEFAULT 0,
+                `collection_type` varchar(30) DEFAULT NULL,
+                `collection_amount` decimal(14,2) DEFAULT NULL,
+                `cheque_details` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`cheque_details`)),
+                `collection_commitment` date DEFAULT NULL,
+                `remarks` text NOT NULL,
+                `user_id` int(11) NOT NULL,
+                `status` tinyint(1) NOT NULL DEFAULT 1,
+                `added_on` datetime NOT NULL,
+                `updated_on` datetime NOT NULL,
+                PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
+                "ALTER TABLE `kb_gallery` ADD `uploaded_by` INT NOT NULL AFTER `path`;",
+                "ALTER TABLE `kb_visit_report` ADD `latitude` VARCHAR(50) NOT NULL AFTER `remarks`, ADD `longitude` VARCHAR(50) NOT NULL AFTER `latitude`;"
         );
         foreach($query as $sql){
             if(!$this->db->query($sql)){

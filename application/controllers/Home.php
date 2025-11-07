@@ -40,7 +40,7 @@ class Home extends MY_Controller {
 	public function markattendance(){
         $data['user']=getuser();
         $checkattendance=$this->attendance->checkattendance($data['user']['id']);
-        if($checkattendance['status']===false && $checkattendance['message']=="Attendance not Done!"){
+        if($checkattendance['status']===false || $checkattendance['count']<2){
             $data['title']="Mark Attendance";
             //$data['subtitle']="Sample Subtitle";
             $data['breadcrumb']=array();
@@ -91,7 +91,7 @@ class Home extends MY_Controller {
             if($checkattendance['count']<2){
                 $type='In';
                 if($checkattendance['count']==1){
-                    $text="Out";
+                    $type="Out";
                 }
                 $data['user_id']=$user['id'];
                 $upload_path='./assets/images/employees/meter/';
@@ -105,6 +105,7 @@ class Home extends MY_Controller {
                     $data['type']=$type;
                     unset($data['username'],$data['saveattendance']);
                     $data['image']=$upload['path'];
+                    //print_pre($data,true);
                     $result=$this->attendance->saveattendance($data);
                     if($result['status']==true){
                         $this->session->set_flashdata('msg',$result['message']);

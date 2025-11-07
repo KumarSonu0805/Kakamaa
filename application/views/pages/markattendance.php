@@ -12,47 +12,53 @@ if($checkattendance['count']==1){
                                     <div class="col-md-4">
                                         <?= form_open_multipart('home/saveattendance/','onSubmit="return validate()"'); ?>
                                             <div class="form-group row d-none">
-                                                <label class="col-sm-2 col-form-label">Username</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-3 col-form-label">Username</label>
+                                                <div class="col-sm-9">
                                                     <input type="text" class="form-control" name="username" id="username" readonly value="<?= $user['username'] ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Name</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-3 col-form-label">Name</label>
+                                                <div class="col-sm-9">
                                                     <input type="text" class="form-control" readonly value="<?= $user['name'] ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Time</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-3 col-form-label">Time</label>
+                                                <div class="col-sm-9">
                                                     <input type="text" class="form-control" readonly value="<?= date('d-m-Y h:i A') ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Latitude</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-3 col-form-label">Latitude</label>
+                                                <div class="col-sm-9">
                                                     <input type="text" class="form-control" name="latitude" id="latitude" required readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Longitude</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-3 col-form-label">Longitude</label>
+                                                <div class="col-sm-9">
                                                     <input type="text" class="form-control" name="longitude" id="longitude" required readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Bike Meter</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-3 col-form-label">Bike Meter</label>
+                                                <div class="col-sm-9">
                                                     <input type="file" class="form-control" name="image" id="image" required>
                                                 </div>
                                             </div>
+                                            <?php
+                                            if($checkattendance['count']<2){
+                                            ?>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"></label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-3 col-form-label"></label>
+                                                <div class="col-sm-9">
                                                     <input type="submit" class="btn btn-success waves-effect waves-light" name="saveattendance" value="<?= $text ?>">
                                                 </div>
                                             </div>
+                                            <?php
+                                            }
+                                            ?>
                                         <?= form_close(); ?>
                                     </div>
                                 </div>

@@ -12,14 +12,7 @@ class Dealers extends MY_Controller {
         $data['title']="Add Dealer";
         //$data['subtitle']="Sample Subtitle";
         $data['breadcrumb']=array();
-        $states=$this->master->getstates();
-        $options=array(""=>"Select State");
-        if(is_array($states)){
-            foreach($states as $state){
-                $options[$state['id']]=$state['name'];
-            }
-        }
-        $data['states']=$options;
+        $data['states']=state_dropdown(['status'=>1],'true');
         
         $sales=$this->account->getusers(['t1.role'=>'dso']);
         $options=array(""=>"Select DSO");
@@ -166,6 +159,19 @@ class Dealers extends MY_Controller {
             unset($data['adddealer']);
             $result=$this->account->register($userdata);
             if($result['status']===true){
+                //print_pre($data,true);
+                if($data['beat_id']=='new'){
+                    $data=addbeat($data);
+                }
+                elseif($data['area_id']=='new'){
+                    $data=addarea($data);
+                }
+                elseif($data['district_id']=='new'){
+                    $data=adddistrict($data);
+                }
+                elseif($data['state_id']=='new'){
+                    $data=addstate($data);
+                }
                 $data['brand_id']=!empty($data['brand_id'])?implode(',',$data['brand_id']):'';
                 $data['finance_id']=!empty($data['finance_id'])?implode(',',$data['finance_id']):'';
                 

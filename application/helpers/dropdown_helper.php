@@ -1,9 +1,12 @@
 <?php 
 	if(!defined('BASEPATH')) exit('No direct script access allowed');
     if(!function_exists('state_dropdown')){
-        function state_dropdown($where=array('status'=>1)){
+        function state_dropdown($where=array('status'=>1),$new=false){
             $CI = get_instance();
             $options=array(''=>'Select State');
+            if($new){
+                $options['new']='Add New';
+            }
             $states=$CI->master->getstates($where);
             if(!empty($states)){
                 foreach($states as $state){
@@ -15,9 +18,12 @@
     }
 
     if(!function_exists('district_dropdown')){
-        function district_dropdown($where=array('t1.status'=>1)){
+        function district_dropdown($where=array('t1.status'=>1),$new=false){
             $CI = get_instance();
             $options=array(''=>'Select District');
+            if($new){
+                $options['new']='Add New';
+            }
             $districts=$CI->master->getdistricts($where);
             if(!empty($districts)){
                 foreach($districts as $district){
@@ -29,9 +35,12 @@
     }
 
     if(!function_exists('area_dropdown')){
-        function area_dropdown($where=array('t1.status'=>1)){
+        function area_dropdown($where=array('t1.status'=>1),$new=false){
             $CI = get_instance();
             $options=array(''=>'Select Area');
+            if($new){
+                $options['new']='Add New';
+            }
             $areas=$CI->master->getareas($where);
             if(!empty($areas)){
                 foreach($areas as $area){
@@ -43,9 +52,12 @@
     }
 
     if(!function_exists('beat_dropdown')){
-        function beat_dropdown($where=array('t1.status'=>1)){
+        function beat_dropdown($where=array('t1.status'=>1),$new=false){
             $CI = get_instance();
             $options=array(''=>'Select Beat');
+            if($new){
+                $options['new']='Add New';
+            }
             $beats=$CI->master->getbeats($where);
             if(!empty($beats)){
                 foreach($beats as $beat){
@@ -57,9 +69,12 @@
     }
 
     if(!function_exists('brand_dropdown')){
-        function brand_dropdown($where=array('t1.status'=>1)){
+        function brand_dropdown($where=array('t1.status'=>1),$new=false){
             $CI = get_instance();
             $options=array(''=>'Select Brand');
+            if($new){
+                $options['new']='Add New';
+            }
             $brands=$CI->master->getbrands($where);
             if(!empty($brands)){
                 foreach($brands as $brand){
@@ -71,9 +86,12 @@
     }
 
     if(!function_exists('finance_dropdown')){
-        function finance_dropdown($where=array('t1.status'=>1)){
+        function finance_dropdown($where=array('t1.status'=>1),$new=false){
             $CI = get_instance();
             $options=array(''=>'Select Finance');
+            if($new){
+                $options['new']='Add New';
+            }
             $finances=$CI->master->getfinances($where);
             if(!empty($finances)){
                 foreach($finances as $finance){
@@ -85,9 +103,12 @@
     }
 
     if(!function_exists('employee_dropdown')){
-        function employee_dropdown($col="e_id",$text="Employee"){
+        function employee_dropdown($col="e_id",$text="Employee",$new=false){
             $CI = get_instance();
             $options=array(''=>'Select '.$text);
+            if($new){
+                $options['new']='Add New';
+            }
             $users=$CI->account->getusers(['t1.role'=>'dso']);
             if(is_array($users)){
                 foreach($users as $user){

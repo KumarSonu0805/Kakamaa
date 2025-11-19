@@ -26,7 +26,7 @@ class Masterkey extends MY_Controller {
             $data['title']="District";
             $data['tabulator']=true;
             $data['alertify']=true;
-            $data['states']=state_dropdown();
+            $data['states']=state_dropdown(['status'=>1],'true');
             $this->template->load('masterkey','district',$data);          
         }
         else{
@@ -40,7 +40,7 @@ class Masterkey extends MY_Controller {
             $data['title']="Area";
             $data['tabulator']=true;
             $data['alertify']=true;
-            $data['states']=state_dropdown();
+            $data['states']=state_dropdown(['status'=>1],'true');
             $this->template->load('masterkey','area',$data);          
         }
         else{
@@ -54,7 +54,7 @@ class Masterkey extends MY_Controller {
             $data['title']="Beat";
             $data['tabulator']=true;
             $data['alertify']=true;
-            $data['states']=state_dropdown();
+            $data['states']=state_dropdown(['status'=>1],'true');
             $this->template->load('masterkey','beat',$data);          
         }
         else{
@@ -150,6 +150,9 @@ class Masterkey extends MY_Controller {
     public function savedistrict(){
         if($this->input->post('savedistrict')!==NULL){
             $data=$this->input->post();
+            if($data['state_id']=='new'){
+                $data=addstate($data);
+            }
             unset($data['savedistrict']);
             $result=$this->master->savedistrict($data);
             if($result['status']===true){
@@ -162,6 +165,9 @@ class Masterkey extends MY_Controller {
 
         elseif($this->input->post('updatedistrict')!==NULL){
             $data=$this->input->post();
+            if($data['state_id']=='new'){
+                $data=addstate($data);
+            }
             unset($data['updatedistrict']);
             $result=$this->master->updatedistrict($data);
             if($result['status']===true){
@@ -185,7 +191,7 @@ class Masterkey extends MY_Controller {
         $state_id=$this->input->post('state_id');
         $district_id=$this->input->post('district_id');
         $district_id=!empty($district_id)?$district_id:'';
-        $districts=district_dropdown(['t1.state_id'=>$state_id,]);
+        $districts=district_dropdown(['t1.state_id'=>$state_id],true);
         echo create_form_input('select','district_id','',true,$district_id,array('id'=>'district_id'),$districts);
     }
     
@@ -205,6 +211,12 @@ class Masterkey extends MY_Controller {
     public function savearea(){
         if($this->input->post('savearea')!==NULL){
             $data=$this->input->post();
+            if($data['district_id']=='new'){
+                $data=adddistrict($data);
+            }
+            elseif($data['state_id']=='new'){
+                $data=addstate($data);
+            }
             unset($data['savearea']);
             $result=$this->master->savearea($data);
             if($result['status']===true){
@@ -217,6 +229,12 @@ class Masterkey extends MY_Controller {
 
         elseif($this->input->post('updatearea')!==NULL){
             $data=$this->input->post();
+            if($data['district_id']=='new'){
+                $data=adddistrict($data);
+            }
+            elseif($data['state_id']=='new'){
+                $data=addstate($data);
+            }
             unset($data['updatearea']);
             $result=$this->master->updatearea($data);
             if($result['status']===true){
@@ -253,13 +271,22 @@ class Masterkey extends MY_Controller {
         $district_id=$this->input->post('district_id');
         $area_id=$this->input->post('area_id');
         $area_id=!empty($area_id)?$area_id:'';
-        $areas=area_dropdown(['t1.district_id'=>$district_id]);
+        $areas=area_dropdown(['t1.district_id'=>$district_id],true);
         echo create_form_input('select','area_id','',true,$area_id,array('id'=>'area_id'),$areas);
     }
     
     public function savebeat(){
         if($this->input->post('savebeat')!==NULL){
             $data=$this->input->post();
+            if($data['area_id']=='new'){
+                $data=addarea($data);
+            }
+            elseif($data['district_id']=='new'){
+                $data=adddistrict($data);
+            }
+            elseif($data['state_id']=='new'){
+                $data=addstate($data);
+            }
             unset($data['savebeat']);
             $result=$this->master->savebeat($data);
             if($result['status']===true){
@@ -272,6 +299,15 @@ class Masterkey extends MY_Controller {
 
         elseif($this->input->post('updatebeat')!==NULL){
             $data=$this->input->post();
+            if($data['area_id']=='new'){
+                $data=addarea($data);
+            }
+            elseif($data['district_id']=='new'){
+                $data=adddistrict($data);
+            }
+            elseif($data['state_id']=='new'){
+                $data=addstate($data);
+            }
             unset($data['updatebeat']);
             $result=$this->master->updatebeat($data);
             if($result['status']===true){
@@ -308,7 +344,7 @@ class Masterkey extends MY_Controller {
         $area_id=$this->input->post('area_id');
         $beat_id=$this->input->post('beat_id');
         $beat_id=!empty($beat_id)?$beat_id:'';
-        $areas=beat_dropdown(['t1.area_id'=>$area_id]);
+        $areas=beat_dropdown(['t1.area_id'=>$area_id],true);
         echo create_form_input('select','beat_id','',true,$beat_id,array('id'=>'beat_id'),$areas);
     }
     

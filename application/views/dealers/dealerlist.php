@@ -99,6 +99,7 @@
                                             data:{area_id:$(this).val(),beat_id:''},
                                             success:function(data){
                                                 $('#beat_id').replaceWith(data);
+                                                $('#beat_id option[value="new"]').remove();
                                             }
                                         });
                                         var dealer_url="<?= base_url('dealers/dealerlist/?type=data'); ?>&area_id="+area_id;

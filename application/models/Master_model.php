@@ -7,10 +7,12 @@ class Master_model extends CI_Model{
 	}
     
     public function savestate($data){
-        if($this->db->get_where('states',['LOWER(name)'=>strtolower($data['name'])])->num_rows()==0){
+        $check=$this->db->get_where('states',['LOWER(name)'=>strtolower($data['name'])]);
+        if($check->num_rows()==0){
             $data['added_on']=$data['updated_on']=date('Y-m-d H:i:s');
             if($this->db->insert('states',$data)){
-                return array("status"=>true,"message"=>"State Added Successfully!");
+                $state_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"State Added Successfully!",'state_id'=>$state_id);
             }
             else{
                 $error=$this->db->error();
@@ -18,7 +20,8 @@ class Master_model extends CI_Model{
             }
         }
         else{
-            return array("status"=>false,"message"=>"State Already Added!");
+            $state=$check->unbuffered_row('array');
+            return array("status"=>false,"message"=>"State Already Added!",'state_id'=>$state['id']);
         }
     }
 
@@ -56,10 +59,12 @@ class Master_model extends CI_Model{
     }
 
     public function savedistrict($data){
-        if($this->db->get_where('districts',['LOWER(name)'=>strtolower($data['name']),'state_id'=>$data['state_id']])->num_rows()==0){
+        $check=$this->db->get_where('districts',['LOWER(name)'=>strtolower($data['name']),'state_id'=>$data['state_id']]);
+        if($check->num_rows()==0){
             $data['added_on']=$data['updated_on']=date('Y-m-d H:i:s');
             if($this->db->insert('districts',$data)){
-                return array("status"=>true,"message"=>"District Added Successfully!");
+                $district_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"District Added Successfully!",'district_id'=>$district_id);
             }
             else{
                 $error=$this->db->error();
@@ -67,7 +72,8 @@ class Master_model extends CI_Model{
             }
         }
         else{
-            return array("status"=>false,"message"=>"District Already Added!");
+            $district=$check->unbuffered_row('array');
+            return array("status"=>false,"message"=>"District Already Added!",'district_id'=>$district['id']);
         }
     }
 
@@ -110,10 +116,12 @@ class Master_model extends CI_Model{
     }
 
     public function savearea($data){
-        if($this->db->get_where('areas',['LOWER(name)'=>strtolower($data['name']),'state_id'=>$data['state_id'],'district_id'=>$data['district_id']])->num_rows()==0){
+        $check=$this->db->get_where('areas',['LOWER(name)'=>strtolower($data['name']),'state_id'=>$data['state_id'],'district_id'=>$data['district_id']]);
+        if($check->num_rows()==0){
             $data['added_on']=$data['updated_on']=date('Y-m-d H:i:s');
             if($this->db->insert('areas',$data)){
-                return array("status"=>true,"message"=>"Area Added Successfully!");
+                $area_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"Area Added Successfully!",'area_id'=>$area_id);
             }
             else{
                 $error=$this->db->error();
@@ -121,7 +129,8 @@ class Master_model extends CI_Model{
             }
         }
         else{
-            return array("status"=>false,"message"=>"Area Already Added!");
+            $area=$check->unbuffered_row('array');
+            return array("status"=>false,"message"=>"Area Already Added!",'area_id'=>$area['id']);
         }
     }
 
@@ -165,10 +174,12 @@ class Master_model extends CI_Model{
     }
 
     public function savebeat($data){
-        if($this->db->get_where('beats',['LOWER(name)'=>strtolower($data['name']),'state_id'=>$data['state_id'],'district_id'=>$data['district_id'],'area_id'=>$data['area_id']])->num_rows()==0){
+        $check=$this->db->get_where('beats',['LOWER(name)'=>strtolower($data['name']),'state_id'=>$data['state_id'],'district_id'=>$data['district_id'],'area_id'=>$data['area_id']]);
+        if($check->num_rows()==0){
             $data['added_on']=$data['updated_on']=date('Y-m-d H:i:s');
             if($this->db->insert('beats',$data)){
-                return array("status"=>true,"message"=>"Beat Added Successfully!");
+                $beat_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"Beat Added Successfully!",'beat_id'=>$beat_id);
             }
             else{
                 $error=$this->db->error();
@@ -176,7 +187,8 @@ class Master_model extends CI_Model{
             }
         }
         else{
-            return array("status"=>false,"message"=>"Beat Already Added!");
+            $beat=$check->unbuffered_row('array');
+            return array("status"=>false,"message"=>"Beat Already Added!",'beat_id'=>$beat['id']);
         }
     }
 
@@ -221,9 +233,11 @@ class Master_model extends CI_Model{
     }
 
     public function savebank($data){
-        if($this->db->get_where('banks',['LOWER(name)'=>strtolower($data['name'])])->num_rows()==0){
+        $check=$this->db->get_where('banks',['LOWER(name)'=>strtolower($data['name'])])->num_rows();
+        if($check==0){
             if($this->db->insert('banks',$data)){
-                return array("status"=>true,"message"=>"Bank Added Successfully!");
+                $bank_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"Bank Added Successfully!",'bank_id'=>$bank_id);
             }
             else{
                 $error=$this->db->error();
@@ -231,7 +245,8 @@ class Master_model extends CI_Model{
             }
         }
         else{
-            return array("status"=>false,"message"=>"Bank Already Added!");
+            $bank=$check->unbuffered_row('array');
+            return array("status"=>false,"message"=>"Bank Already Added!",'bank_id'=>$bank['id']);
         }
     }
 
@@ -268,9 +283,11 @@ class Master_model extends CI_Model{
     }
 
     public function savefinance($data){
-        if($this->db->get_where('finance_companies',['LOWER(name)'=>strtolower($data['name'])])->num_rows()==0){
+        $check=$this->db->get_where('finance_companies',['LOWER(name)'=>strtolower($data['name'])]);
+        if($check->num_rows()==0){
             if($this->db->insert('finance_companies',$data)){
-                return array("status"=>true,"message"=>"Finance Company Added Successfully!");
+                $fc_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"Finance Company Added Successfully!",'fc_id'=>$fc_id);
             }
             else{
                 $error=$this->db->error();
@@ -278,7 +295,8 @@ class Master_model extends CI_Model{
             }
         }
         else{
-            return array("status"=>false,"message"=>"Finance Company Already Added!");
+            $fc=$check->unbuffered_row('array');
+            return array("status"=>false,"message"=>"Finance Company Already Added!",'fc_id'=>$fc['id']);
         }
     }
 
@@ -315,9 +333,11 @@ class Master_model extends CI_Model{
     }
     
     public function savebrand($data){
-        if($this->db->get_where('brands',['LOWER(name)'=>strtolower($data['name'])])->num_rows()==0){
+        $check=$this->db->get_where('brands',['LOWER(name)'=>strtolower($data['name'])]);
+        if($check->num_rows()==0){
             if($this->db->insert('brands',$data)){
-                return array("status"=>true,"message"=>"Brand Added Successfully!");
+                $brand_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"Brand Added Successfully!",'brand_id'=>$brand_id);
             }
             else{
                 $error=$this->db->error();
@@ -325,7 +345,8 @@ class Master_model extends CI_Model{
             }
         }
         else{
-            return array("status"=>false,"message"=>"Brand Already Added!");
+            $brand=$check->unbuffered_row('array');
+            return array("status"=>false,"message"=>"Brand Already Added!",'brand_id'=>$brand['id']);
         }
     }
 

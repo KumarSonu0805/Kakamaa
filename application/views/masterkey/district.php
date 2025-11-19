@@ -127,5 +127,14 @@
                                         table.clearFilter();
                                     });
 
+                                    $('body').on('change','#state_id',function(){
+                                        if($(this).val()=='new'){
+                                            $(this).parent().append('<?= trim(create_form_input('text','state_val','',true,'',array('id'=>'state_val','class'=>'mt-2'))); ?>');
+                                        }
+                                        else{
+                                            $('#state_val').remove();
+                                        }
+                                    });
+
                                 });
                             </script>

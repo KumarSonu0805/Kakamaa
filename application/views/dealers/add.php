@@ -162,6 +162,12 @@
 <script>
 	$(document).ready(function(e) {
         $('body').on('change','#state_id',function(){
+            if($(this).val()=='new'){
+                $(this).parent().append('<?= trim(create_form_input('text','state_val','',true,'',array('id'=>'state_val','class'=>'mt-2'))); ?>');
+            }
+            else{
+                $('#state_val').remove();
+            }
             $.ajax({
                 type:"post",
                 url:"<?= base_url('masterkey/getdistrictdropdown/'); ?>",
@@ -173,6 +179,12 @@
             });
         });
         $('body').on('change','#district_id',function(){
+            if($(this).val()=='new'){
+                $(this).parent().append('<?= trim(create_form_input('text','district_val','',true,'',array('id'=>'district_val','class'=>'mt-2'))); ?>');
+            }
+            else{
+                $('#district_val').remove();
+            }
             $.ajax({
                 type:"post",
                 url:"<?= base_url('masterkey/getareadropdown/'); ?>",
@@ -184,6 +196,12 @@
             });
         });
         $('body').on('change','#area_id',function(){
+            if($(this).val()=='new'){
+                $(this).parent().append('<?= trim(create_form_input('text','area_val','',true,'',array('id'=>'area_val','class'=>'mt-2'))); ?>');
+            }
+            else{
+                $('#area_val').remove();
+            }
             $.ajax({
                 type:"post",
                 url:"<?= base_url('masterkey/getbeatdropdown/'); ?>",
@@ -192,6 +210,14 @@
                     $('#beat_id').replaceWith(data);
                 }
             });
+        });
+        $('body').on('change','#beat_id',function(){
+            if($(this).val()=='new'){
+                $(this).parent().append('<?= trim(create_form_input('text','beat_val','',true,'',array('id'=>'beat_val','class'=>'mt-2'))); ?>');
+            }
+            else{
+                $('#beat_val').remove();
+            }
         });
         new TomSelect("#brand_id", {
           plugins: ['remove_button'], // Adds an 'x' to remove items

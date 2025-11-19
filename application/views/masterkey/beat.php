@@ -4,7 +4,7 @@
                                             <div class="card-header"><?= $title; ?></div>
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-5">
                                                         <?= form_open_multipart('masterkey/savebeat/'); ?>
                                                             <div class="form-group row">
                                                                 <label class="col-sm-2 col-form-label">State</label>
@@ -40,7 +40,7 @@
                                                             </div>
                                                         <?= form_close(); ?>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-7">
                                                         <div id="tabulator-table"></div>
                                                     </div>
                                                 </div>
@@ -95,7 +95,7 @@
                                         });
                                     });
                                     $('.cancel-btn').click(function(){
-                                        $('#state_id,#district_id,#name,#id,#image').val('');
+                                        $('#state_id,#district_id,#area_id,#name,#id,#image').val('');
                                         $('.cancel-btn').addClass('hidden');
                                         $('input[name="updatebeat"]').attr('name','savebeat').val('Save Beat');
                                     });
@@ -163,6 +163,32 @@
                                     $('body').on('click','#clearSearch',function(){
                                         document.getElementById("searchInput").value = "";
                                         table.clearFilter();
+                                    });
+                                    $('body').on('change','#state_id',function(){
+                                        if($(this).val()=='new'){
+                                            $(this).parent().append('<?= trim(create_form_input('text','state_val','',true,'',array('id'=>'state_val','class'=>'mt-2'))); ?>');
+                                        }
+                                        else{
+                                            $('#state_val').remove();
+                                        }
+                                    });
+
+                                    $('body').on('change','#district_id',function(){
+                                        if($(this).val()=='new'){
+                                            $(this).parent().append('<?= trim(create_form_input('text','district_val','',true,'',array('id'=>'district_val','class'=>'mt-2'))); ?>');
+                                        }
+                                        else{
+                                            $('#district_val').remove();
+                                        }
+                                    });
+
+                                    $('body').on('change','#area_id',function(){
+                                        if($(this).val()=='new'){
+                                            $(this).parent().append('<?= trim(create_form_input('text','area_val','',true,'',array('id'=>'area_val','class'=>'mt-2'))); ?>');
+                                        }
+                                        else{
+                                            $('#area_val').remove();
+                                        }
                                     });
                                 });
                             </script>

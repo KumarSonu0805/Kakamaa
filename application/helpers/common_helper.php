@@ -84,19 +84,22 @@
         }
     }
 
-    if(!function_exists('getsharelink')) {
-        function getsharelink($data) {
-            //print_pre($data);
-            $link=base_url('sharer/?');
-            $type='';
-            if(isset($data['type'])){
-                $type=$data['type'];
-            }
-            $encdata=encryptData(['id'=>$data['og_id'],'type'=>$type]);
-            $encdata=http_build_query($encdata);
-            $link.=$encdata;
-            return $link;
+    if(!function_exists('haversineDistance')) {
+        function haversineDistance($lat1, $lon1, $lat2, $lon2) {
+            $earthRadius = 6371000; // meters
+
+            $dLat = deg2rad($lat2 - $lat1);
+            $dLon = deg2rad($lon2 - $lon1);
+
+            $a = sin($dLat/2) * sin($dLat/2) +
+                cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+                sin($dLon/2) * sin($dLon/2);
+
+            $c = 2 * atan2(sqrt($a), sqrt(1-$a));
+
+            return $earthRadius * $c;
         }
+
     }
 
     if(!function_exists('encryptData')) {

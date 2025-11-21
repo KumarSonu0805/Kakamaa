@@ -20,11 +20,24 @@ class Visitreport extends MY_Controller {
             }
         }
         $data['states']=$options;
+        $user=getuser();
+        $this->db->order_by('id desc');
+        $getcurrentlocation=$this->db->get_where('current_locations',['user_id'=>$user['id'],'status'=>1]);
+        if($getcurrentlocation->num_rows()>0){
+            $current_location=$getcurrentlocation->unbuffered_row('array');
+        }
+        //
         $where=array();
         $dealers=$this->dealer->getdealers($where);
         $options=array(""=>"Select Dealer");
         if(is_array($dealers)){
             foreach($dealers as $dealer){
+                if(!empty($current_location)){
+                    $distance=haversineDistance($current_location['latitude'],$current_location['longitude'],$dealer['latitude'],$dealer['longitude']);
+                    if($distance>500){
+                        continue;
+                    }
+                }
                 $options[$dealer['id']]=$dealer['name'];
             }
         }

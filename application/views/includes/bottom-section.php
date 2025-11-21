@@ -61,16 +61,19 @@
         <script>
             var myInt;
             $(document).ready(function(){
-                myInt=setInterval(saveLocation,10000);
+                myInt=setInterval(saveLocation,15000);
                 
             });
             function saveLocation(){
-                $.post('<?= base_url('home/savelocation') ?>',{lat:$('#emp-latitude').val(),long:$('#emp-longitude').val()},function(data){
-                    console.log(data);
-                    if(data=='Attendance not Done'){
-                        clearInterval(myInt);
-                    }
-                });
+                getLocation();
+                if($('#emp-latitude').val()!='' && $('#emp-longitude').val()!=''){
+                    $.post('<?= base_url('home/savelocation') ?>',{lat:$('#emp-latitude').val(),long:$('#emp-longitude').val()},function(data){
+                        console.log(data);
+                        if(data=='Attendance not Done'){
+                            clearInterval(myInt);
+                        }
+                    });
+                }
             }
         </script>
         <?php

@@ -112,3 +112,14 @@
 		}  
 	}
 	
+    if(!function_exists('addexpensehead')){
+        function addexpensehead($data){
+            $CI = get_instance();
+            $edata=array('name'=>$data['head_val']);
+            $result=$CI->expense->addexpensehead($edata);
+            $head_id=$result['expensehead_id'];
+            $data['head_id']=$head_id;
+            unset($data['head_val']);
+            return $data;
+        }
+    }

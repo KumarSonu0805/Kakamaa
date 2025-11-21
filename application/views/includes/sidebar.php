@@ -155,7 +155,33 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item has-treeview <?= activate_dropdown('settings'); ?>">
+                            <li class="nav-item has-treeview <?= activate_dropdown('expenses'); ?>">
+                                <a href="#" class="nav-link <?= activate_dropdown('expenses','a'); ?>">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>Expenses<i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('expenses/'); ?>" class="nav-link <?= activate_menu('expenses'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add Expense</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('expenses/expenselist/'); ?>" class="nav-link <?= activate_menu('expenses/expenselist'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Expense List</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('expenses/expensehead/'); ?>" class="nav-link <?= activate_menu('expenses/expensehead'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Expense Heads</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview d-none <?= activate_dropdown('settings'); ?>">
                                 <a href="#" class="nav-link <?= activate_dropdown('settings','a'); ?>">
                                     <i class="nav-icon fas fa-cogs"></i>
                                     <p>Settings<i class="right fas fa-angle-left"></i></p>
@@ -169,7 +195,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item <?= activate_dropdown('customize'); ?>">
+                            <li class="nav-item d-none <?= activate_dropdown('customize'); ?>">
                                 <a href="#" class="nav-link <?= activate_dropdown('customize','a'); ?>">
                                     <i class="nav-icon fas fa-wrench"></i>
                                     <p>
@@ -252,6 +278,32 @@
                                         <a href="<?= base_url('visitreport/'); ?>" class="nav-link <?= activate_menu('visitreport'); ?>">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Add DVR</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview <?= activate_dropdown('expenses'); ?>">
+                                <a href="#" class="nav-link <?= activate_dropdown('expenses','a'); ?>">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>Expenses<i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('expenses/'); ?>" class="nav-link <?= activate_menu('expenses'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add Expense</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('expenses/expenselist/'); ?>" class="nav-link <?= activate_menu('expenses/expenselist'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Expense List</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('expenses/expensehead/'); ?>" class="nav-link <?= activate_menu('expenses/expensehead'); ?>">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Expense Heads</p>
                                         </a>
                                     </li>
                                 </ul>

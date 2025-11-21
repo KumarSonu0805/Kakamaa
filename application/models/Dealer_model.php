@@ -73,7 +73,8 @@ class Dealer_model extends CI_Model{
         }
         $data['added_on']=$data['updated_on']=date('Y-m-d H:i:s');
         if($this->db->insert("gallery",$data)){
-            return array("status"=>true,"message"=>"Dealer Added Successfully!");
+            $text=($data['type']=='monthly'?'Monthly ':'').'Image';
+            return array("status"=>true,"message"=>"Dealer $text Added Successfully!");
         }
         else{
             $error=$this->db->error();

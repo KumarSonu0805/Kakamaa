@@ -201,14 +201,14 @@ class Dealers extends MY_Controller {
                     $message.="Password : ".$userdata['password']."<br>";
                     $message.=PROJECT_NAME;
                     //sendemail($data['email'],"Dealer Registration",$message);
-                    $this->session->set_flashdata("msg",$result['message']);
+                    $this->set_flash("msg",$result['message']);
                 }
                 else{
-                    $this->session->set_flashdata("err_msg",$result['message']);
+                    $this->set_flash("err_msg",$result['message']);
                 }
             }
             else{
-                $this->session->set_flashdata("err_msg",$result['message']);
+                $this->set_flash("err_msg",$result['message']);
             }
         }
         redirect('dealers/');
@@ -233,10 +233,10 @@ class Dealers extends MY_Controller {
             
             $result=$this->dealer->updatedealer($data);
             if($result['status']===true){
-                $this->session->set_flashdata("msg",$result['message']);
+                $this->set_flash("msg",$result['message']);
             }
             else{
-                $this->session->set_flashdata("err_msg",$result['message']);
+                $this->set_flash("err_msg",$result['message']);
             }
         }
         redirect('dealers/dealerlist/');
@@ -295,18 +295,18 @@ class Dealers extends MY_Controller {
                     $data['uploaded_by']=$user['id'];
                     $result=$this->dealer->savedealerimage($data);
                     if($result['status']==true){
-                        $this->session->set_flashdata('msg',$result['message']);
+                        $this->set_flash('msg',$result['message']);
                     }
                     else{
-                        $this->session->set_flashdata('err_msg',$result['message']);
+                        $this->set_flash('err_msg',$result['message']);
                     }
                 }
                 else{ 
-                    $this->session->set_flashdata('err_msg',"Image not uploaded! ".trim($upload['msg']));
+                    $this->set_flash('err_msg',"Image not uploaded! ".trim($upload['msg']));
                 }
             }
             else{ 
-                $this->session->set_flashdata('err_msg',"Please Try Again!");
+                $this->set_flash('err_msg',"Please Try Again!");
             }
         }
         redirect($_SERVER['HTTP_REFERER']);

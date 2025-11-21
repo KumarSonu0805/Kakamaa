@@ -118,3 +118,20 @@
             return $options;
         }
     }
+
+    if(!function_exists('expensehead_dropdown')){
+        function expensehead_dropdown($where=array('t1.status'=>1),$new=false){
+            $CI = get_instance();
+            $options=array(''=>'Select Expense Head');
+            if($new){
+                $options['new']='Add New';
+            }
+            $expenseheads=$CI->expense->getexpenseheads($where);
+            if(!empty($expenseheads)){
+                foreach($expenseheads as $head){
+                    $options[$head['id']]=$head['name'];
+                }
+            }
+            return $options;
+        }
+    }

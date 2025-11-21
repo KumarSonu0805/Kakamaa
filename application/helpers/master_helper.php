@@ -65,3 +65,50 @@
             return $data;
         }
     }
+
+	if(!function_exists('generatebrandjson')) {
+  		function generatebrandjson($brands) {
+            $CI = get_instance();
+            $brands=json_decode($brands,true);
+            $brand_ids=array();
+            if(!empty($brands)){
+                foreach($brands as $brand){
+                    if(isset($brand['id'])){
+                        $brand_ids[]=$brand['id'];
+                    }
+                    else{
+                        $branddata=array('name'=>$brand['value']);
+                        $result=$CI->master->savebrand($branddata);
+                        if(!empty($result['brand_id'])){
+                            $brand_ids[]=$result['brand_id'];
+                        }
+                    }
+                }
+            }
+            return $brand_ids;
+		}  
+	}
+	
+	if(!function_exists('generatefinancejson')) {
+  		function generatefinancejson($finances) {
+            $CI = get_instance();
+            $finances=json_decode($finances,true);
+            $finance_ids=array();
+            if(!empty($finances)){
+                foreach($finances as $finance){
+                    if(isset($finance['id'])){
+                        $finance_ids[]=$finance['id'];
+                    }
+                    else{
+                        $financedata=array('name'=>$finance['value']);
+                        $result=$CI->master->savefinance($financedata);
+                        if(!empty($result['finance_id'])){
+                            $finance_ids[]=$result['finance_id'];
+                        }
+                    }
+                }
+            }
+            return $finance_ids;
+		}  
+	}
+	

@@ -57,7 +57,7 @@
                                                     <div class="form-group row">
                                                         <label class="col-sm-2 col-form-label">State</label>
                                                         <div class="col-sm-8">
-                                                            <?= form_dropdown('state_id',$states,'',array('class'=>'form-control','id'=>'state_id','required'=>'true')); ?>
+                                                            <?= form_dropdown('state_id',$states,'',array('class'=>'form-control tom-select','id'=>'state_id','required'=>'true')); ?>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -129,13 +129,13 @@
                                                     <div class="form-group row ">
                                                         <label class="col-sm-2 col-form-label">Brands</label>
                                                         <div class="col-sm-8">
-                                                            <?= form_dropdown('brand_id[]',brand_dropdown(),'',array('class'=>'','required'=>"true","id"=>"brand_id",'required'=>'true','multiple'=>'true')); ?>
+                                                            <input name='brand_id' class='brand_id form-control' placeholder='Enter Brand Names' >
                                                         </div>
                                                     </div>
                                                     <div class="form-group row ">
                                                         <label class="col-sm-2 col-form-label">Finance Details</label>
                                                         <div class="col-sm-8">
-                                                            <?= form_dropdown('finance_id[]',finance_dropdown(),'',array('class'=>'','required'=>"true","id"=>"finance_id",'multiple'=>'true')); ?>
+                                                            <input name='finance_id' class='finance_id form-control' placeholder='Enter Finance Company Names' >
                                                         </div>
                                                     </div>
                                                     <div class="form-group row <?= $user['role']=='dso'?'d-none':'' ?>">
@@ -173,8 +173,9 @@
                 url:"<?= base_url('masterkey/getdistrictdropdown/'); ?>",
                 data:{state_id:$(this).val(),district_id:''},
                 success:function(data){
-                    $('#district_id').replaceWith(data);
+                    $('#district_id').parent().html(data);
                     $('#district_id').trigger('change');
+                    createTomSelect('#district_id');
                 }
             });
         });
@@ -190,8 +191,9 @@
                 url:"<?= base_url('masterkey/getareadropdown/'); ?>",
                 data:{district_id:$(this).val(),area_id:''},
                 success:function(data){
-                    $('#area_id').replaceWith(data);
+                    $('#area_id').parent().html(data);
                     $('#area_id').trigger('change');
+                    createTomSelect('#area_id');
                 }
             });
         });
@@ -207,7 +209,8 @@
                 url:"<?= base_url('masterkey/getbeatdropdown/'); ?>",
                 data:{area_id:$(this).val(),beat_id:''},
                 success:function(data){
-                    $('#beat_id').replaceWith(data);
+                    $('#beat_id').parent().html(data);
+                    createTomSelect('#beat_id');
                 }
             });
         });
@@ -219,17 +222,29 @@
                 $('#beat_val').remove();
             }
         });
-        new TomSelect("#brand_id", {
-          plugins: ['remove_button'], // Adds an 'x' to remove items
-          persist: false,
-          create: false, // or true to allow new items
-          maxItems: null, // null = unlimited
+        // new TomSelect("#brand_id", {
+        //   plugins: ['remove_button'], // Adds an 'x' to remove items
+        //   persist: false,
+        //   create: false, // or true to allow new items
+        //   maxItems: null, // null = unlimited
+        // });
+        // new TomSelect("#finance_id", {
+        //   plugins: ['remove_button'], // Adds an 'x' to remove items
+        //   persist: false,
+        //   create: false, // or true to allow new items
+        //   maxItems: null, // null = unlimited
+        // });
+        $.getJSON("<?= base_url('masterkey/getallbrands') ?>", function(brands) { 
+            console.log(brands); 
+            var brand_ids=JSON.parse('[]');
+            //console.log(brand_ids);
+            tagTagify=createTagify(brands,brand_ids,'.brand_id',100);
         });
-        new TomSelect("#finance_id", {
-          plugins: ['remove_button'], // Adds an 'x' to remove items
-          persist: false,
-          create: false, // or true to allow new items
-          maxItems: null, // null = unlimited
+        $.getJSON("<?= base_url('masterkey/getallfinances') ?>", function(finances) { 
+            console.log(finances); 
+            var finance_ids=JSON.parse('[]');
+            //console.log(finance_ids);
+            tagTagify=createTagify(finances,finance_ids,'.finance_id',100);
         });
     });
 function getPhoto(input){

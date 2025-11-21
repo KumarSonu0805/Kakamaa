@@ -122,7 +122,7 @@ class Home extends MY_Controller {
                 $this->session->set_flashdata('err_msg',"Today's Attendance already Done!");
             }
         }
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect('/');
     }
     
     

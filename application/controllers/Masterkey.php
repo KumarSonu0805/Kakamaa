@@ -416,6 +416,12 @@ class Masterkey extends MY_Controller {
         echo json_encode($finance);
     }
     
+    public function getallfinances(){
+        $this->db->select('id,name as value');
+        $finances=$this->master->getfinances();
+        echo json_encode($finances);
+    }
+    
     public function savebrand(){
         if($this->input->post('savebrand')!==NULL){
             $data=$this->input->post();
@@ -448,6 +454,12 @@ class Masterkey extends MY_Controller {
         $id=$this->input->post('id');
         $brand=$this->master->getbrands(['t1.id'=>$id],'single');
         echo json_encode($brand);
+    }
+    
+    public function getallbrands(){
+        $this->db->select('id,name as value');
+        $brands=$this->master->getbrands();
+        echo json_encode($brands);
     }
     
 }

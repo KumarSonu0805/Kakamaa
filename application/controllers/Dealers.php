@@ -22,6 +22,7 @@ class Dealers extends MY_Controller {
             }
         }
         $data['sales']=$options;
+		$data['tagify']=true;
         $data['tomselect']=true;
         $data['user']=getuser();
 		$this->template->load('dealers','add',$data);
@@ -146,6 +147,10 @@ class Dealers extends MY_Controller {
     public function adddealer(){
         if($this->input->post('adddealer')!==NULL){
             $data=$this->input->post();
+            $brand_ids=generatebrandjson($data['brand_id']);
+            $data['brand_id']=$brand_ids;
+            $finance_ids=generatefinancejson($data['finance_id']);
+            $data['finance_id']=$finance_ids;
             //print_pre($data);
             /*$data['shop_name']='Shop Name 10';
             $data['name']='Dealer 10';

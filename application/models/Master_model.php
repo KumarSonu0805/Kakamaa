@@ -286,8 +286,8 @@ class Master_model extends CI_Model{
         $check=$this->db->get_where('finance_companies',['LOWER(name)'=>strtolower($data['name'])]);
         if($check->num_rows()==0){
             if($this->db->insert('finance_companies',$data)){
-                $fc_id=$this->db->insert_id();
-                return array("status"=>true,"message"=>"Finance Company Added Successfully!",'fc_id'=>$fc_id);
+                $finance_id=$this->db->insert_id();
+                return array("status"=>true,"message"=>"Finance Company Added Successfully!",'finance_id'=>$finance_id);
             }
             else{
                 $error=$this->db->error();
@@ -296,7 +296,7 @@ class Master_model extends CI_Model{
         }
         else{
             $fc=$check->unbuffered_row('array');
-            return array("status"=>false,"message"=>"Finance Company Already Added!",'fc_id'=>$fc['id']);
+            return array("status"=>false,"message"=>"Finance Company Already Added!",'finance_id'=>$fc['id']);
         }
     }
 

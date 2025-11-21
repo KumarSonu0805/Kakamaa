@@ -119,6 +119,10 @@ class Template {
 			$this->loadleaflet();
 		}
 		
+		if(isset($data['tagify']) && $data['tagify']===true){
+			$this->loadtagify();
+		}
+		
 		$this->loadtoastr();
         $data['styles']=$this->styles;
 		$data['top_script']=$this->top_script;
@@ -189,6 +193,13 @@ class Template {
 	function loadleaflet(){
 		$this->styles['link'][]="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
 		$this->content_script['link'][]="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+	}
+	
+	function loadtagify(){
+		$this->styles['link'][]="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css";
+		$this->bottom_script['link'][]="https://cdn.jsdelivr.net/npm/@yaireo/tagify";
+		$this->bottom_script['link'][]="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js";
+		$this->bottom_script['file'][]="includes/custom/tagify.js";
 	}
 	
 }
